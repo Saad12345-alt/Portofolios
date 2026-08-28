@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saad — MERN Stack Developer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink: #0A0E14;
+    --ink-raised: #121821;
+    --ink-border: #1F2733;
+    --paper: #E7EAEE;
+    --muted: #8B95A5;
+    --signal: #57E8C9;
+    --signal-dim: rgba(87,232,201,0.12);
+    --amber: #F2A94E;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-sans: 'Inter', system-ui, sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--font-sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--signal); color:var(--ink); }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:920px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- status bar ---------- */
+  .statusbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--ink-border);
+  }
+  .statusbar .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:56px; max-width:960px;
+  }
+  .status-left{ display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; }
+  .dot{
+    width:8px; height:8px; border-radius:50%; background:var(--signal);
+    box-shadow:0 0 0 0 rgba(87,232,201,0.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(87,232,201,0.5); }
+    70%{ box-shadow:0 0 0 8px rgba(87,232,201,0); }
+    100%{ box-shadow:0 0 0 0 rgba(87,232,201,0); }
+  }
+  .status-left .label{ color:var(--muted); }
+  .status-left .value{ color:var(--signal); }
+  nav{ display:flex; gap:22px; font-family:var(--font-mono); font-size:13px; }
+  nav a{ color:var(--muted); transition:color .15s ease; white-space:nowrap; }
+  nav a:hover, nav a:focus-visible{ color:var(--signal); }
+
+  @media(max-width:640px){
+    nav{ display:none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:100px; padding-bottom:60px;
+  }
+  .terminal{
+    background:var(--ink-raised);
+    border:1px solid var(--ink-border);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--ink-border);
+    font-family:var(--font-mono); font-size:12px; color:var(--muted);
+  }
+  .terminal-bar .tdot{ width:10px; height:10px; border-radius:50%; background:#2A3441; }
+  .terminal-body{
+    padding:28px 24px 32px;
+    font-family:var(--font-mono);
+    font-size:clamp(13px, 1.6vw, 16px);
+    min-height:220px;
+  }
+  .terminal-body .line{ margin-bottom:6px; white-space:pre-wrap; }
+  .terminal-body .prompt{ color:var(--signal); }
+  .terminal-body .out{ color:var(--paper); }
+  .terminal-body .dim{ color:var(--muted); }
+  .cursor{
+    display:inline-block; width:8px; height:1em; background:var(--signal);
+    vertical-align:text-bottom; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-tagline{
+    margin-top:28px;
+    font-size:clamp(28px, 5vw, 44px);
+    font-family:var(--font-mono);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.15;
+  }
+  .hero-tagline .accent{ color:var(--signal); }
+  .hero-sub{
+    margin-top:14px; max-width:560px; color:var(--muted); font-size:16px;
+  }
+  .hero-cta{ display:flex; gap:14px; margin-top:28px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--font-mono); font-size:13px; padding:12px 20px;
+    border-radius:6px; border:1px solid var(--ink-border);
+    transition:all .15s ease; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{ background:var(--signal); color:var(--ink); border-color:var(--signal); font-weight:600; }
+  .btn-primary:hover{ background:#7ff0d8; transform:translateY(-1px); }
+  .btn-ghost{ color:var(--paper); }
+  .btn-ghost:hover{ border-color:var(--signal); color:var(--signal); }
+
+  /* ---------- section shell ---------- */
+  section{ padding:96px 0; border-top:1px solid var(--ink-border); }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:13px; color:var(--signal);
+    margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{ content:'$'; color:var(--muted); }
+  h2.title{
+    font-family:var(--font-mono); font-size:clamp(24px,3.4vw,32px);
+    font-weight:700; margin-bottom:28px; letter-spacing:-0.01em;
+  }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- about ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:40px; align-items:start; }
+  .about-grid p{ color:var(--paper); font-size:16px; margin-bottom:14px; }
+  .about-grid p .hl{ color:var(--signal); }
+  .facts{ display:flex; flex-direction:column; gap:0; border:1px solid var(--ink-border); border-radius:10px; overflow:hidden; }
+  .fact{ display:flex; justify-content:space-between; padding:14px 18px; font-family:var(--font-mono); font-size:13px; border-bottom:1px solid var(--ink-border); }
+  .fact:last-child{ border-bottom:none; }
+  .fact .k{ color:var(--muted); }
+  .fact .v{ color:var(--paper); text-align:right; }
+
+  @media(max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- skills ---------- */
+  .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .skill-card{ background:var(--ink-raised); border:1px solid var(--ink-border); border-radius:10px; padding:20px; }
+  .skill-card h3{ font-family:var(--font-mono); font-size:13px; color:var(--muted); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ font-family:var(--font-mono); font-size:12.5px; padding:6px 10px; border-radius:6px; background:var(--signal-dim); color:var(--signal); border:1px solid rgba(87,232,201,0.25); }
+
+  /* ---------- projects ---------- */
+  .projects-list{ display:flex; flex-direction:column; gap:18px; }
+  .project{
+    background:var(--ink-raised); border:1px solid var(--ink-border); border-radius:12px;
+    padding:26px; transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .project:hover{ border-color:var(--signal); transform:translateY(-3px); box-shadow:0 20px 40px -24px rgba(87,232,201,0.35); }
+  .project-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .project-name{ font-family:var(--font-mono); font-size:19px; font-weight:700; }
+  .project-name .sub{ color:var(--muted); font-weight:400; font-size:14px; }
+  .project-index{ font-family:var(--font-mono); font-size:12px; color:var(--muted); }
+  .project p.desc{ margin-top:12px; color:var(--paper); font-size:15px; max-width:640px; }
+  .project .chip-row{ margin-top:16px; }
+  .project-links{ margin-top:16px; display:flex; gap:16px; font-family:var(--font-mono); font-size:12.5px; }
+  .project-links a{ color:var(--muted); border-bottom:1px dashed var(--ink-border); padding-bottom:2px; }
+  .project-links a:hover{ color:var(--signal); border-color:var(--signal); }
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    background:var(--ink-raised); border:1px solid var(--ink-border); border-radius:12px;
+    padding:32px; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  .contact-links{ display:flex; flex-direction:column; gap:10px; font-family:var(--font-mono); font-size:14px; }
+  .contact-links a{ color:var(--paper); }
+  .contact-links a:hover{ color:var(--signal); }
+  .contact-links .k{ color:var(--muted); font-size:12px; }
+  .note{ font-family:var(--font-mono); font-size:12px; color:var(--muted); margin-top:18px; }
+
+  footer{ padding:36px 0 60px; text-align:center; color:var(--muted); font-family:var(--font-mono); font-size:12.5px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--signal); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+  <div class="statusbar">
+    <div class="wrap">
+      <div class="status-left">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="label">status:</span>
+        <span class="value">open to internships &amp; junior roles</span>
+      </div>
+      <nav>
+        <a href="#about">whoami</a>
+        <a href="#skills">skills</a>
+        <a href="#projects">projects</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <section class="hero" id="top">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+          <span style="margin-left:8px;">saad@dev:~</span>
+        </div>
+        <div class="terminal-body" id="typed"></div>
+      </div>
+
+      <h1 class="hero-tagline">Building the <span class="accent">backend logic</span><br>and the <span class="accent">interfaces</span> on top of it.</h1>
+      <p class="hero-sub">MERN stack developer and Fourth-year CS (BSSE) student, based in Multan, Pakistan — with a UAE dependent visa, so no employer sponsorship is required for roles there.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#projects">$ ls projects/</a>
+        <a class="btn btn-ghost" href="#contact">$ contact --send</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="eyebrow">whoami</div>
+      <h2 class="title">About</h2>
+      <div class="about-grid reveal">
+        <div>
+          <p>I'm Saad, a fourth-year <span class="hl">Computer Science (BSSE)</span> student at NFC-IET in Multan, Pakistan, currently maintaining a <span class="hl">3.4/4.0 GPA</span>. I work primarily as a <span class="hl">junior-level MERN stack developer</span> — React on the frontend, Node.js/Express and MongoDB underneath.</p>
+          <p>Most of my project work centers on real-time systems: authentication, WebSocket-driven features, and the backend performance work that keeps them fast once real data shows up — cursor-based pagination, compound indexes, that kind of thing.</p>
+          <p>I'm looking for internship and junior developer roles in <span class="hl">Pakistan and the UAE</span>. I previously attended school in Abu Dhabi, so the region isn't new to me.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><span class="k">education</span><span class="v">BSSE, NFC-IET Multan</span></div>
+          <div class="fact"><span class="k">gpa</span><span class="v">3.4 / 4.0</span></div>
+          <div class="fact"><span class="k">role</span><span class="v">MERN Developer</span></div>
+          <div class="fact"><span class="k">based_in</span><span class="v">Multan, Pakistan</span></div>
+          <div class="fact"><span class="k">seeking</span><span class="v">PK &amp; UAE roles</span></div>
+          <div class="fact"><span class="k">uae_visa</span><span class="v">Dependent — no sponsorship needed</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="eyebrow">cat skills.json</div>
+      <h2 class="title">Skills</h2>
+      <div class="skills-grid reveal">
+        <div class="skill-card">
+          <h3>Frontend</h3>
+          <div class="chip-row">
+            <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">HTML/CSS</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Backend</h3>
+          <div class="chip-row">
+            <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">Socket.io</span><span class="chip">JWT</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Data</h3>
+          <div class="chip-row">
+            <span class="chip">MongoDB</span><span class="chip">MySQL</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Languages</h3>
+          <div class="chip-row">
+            <span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">Java</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Tools</h3>
+          <div class="chip-row">
+            <span class="chip">Git</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Explored</h3>
+          <div class="chip-row">
+            <span class="chip">Flutter</span><span class="chip">Firebase</span><span class="chip">Riverpod</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="eyebrow">ls ~/projects</div>
+      <h2 class="title">Projects</h2>
+      <div class="projects-list reveal">
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-name">SimplyChat <span class="sub">— real-time MERN chat app</span></div>
+            <div class="project-index">01 / flagship</div>
+          </div>
+          <p class="desc">A real-time chat application built on Socket.io with JWT authentication, later migrated fully to TypeScript across the Express layer and Mongoose models. On the backend I replaced unbounded queries with cursor-based paginated endpoints and added a compound <code>{ room: 1, createdAt: 1 }</code> index to keep message history fast at scale. The UI includes WhatsApp-style message bubbles, custom file-upload styling, and fixes for cross-browser quirks like <code>::file-selector-button</code>.</p>
+          <div class="chip-row">
+            <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">MongoDB</span><span class="chip">Socket.io</span><span class="chip">TypeScript</span><span class="chip">JWT</span>
+          </div>
+          <div class="project-links">
+            <a href="#" aria-label="SimplyChat GitHub repository">github →</a>
+            <a href="#" aria-label="SimplyChat live demo">live demo →</a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-name">ClayMold <span class="sub">— ClayMold e-commerce platform</span></div>
+            <div class="project-index">02</div>
+          </div>
+          <p class="desc">A React e-commerce admin panel and storefront running on a MERN backend. I led full frontend redesigns of the login, dashboard, product table and form, cart, and product detail pages to match a set of provided UI mockups pixel-for-pixel.</p>
+          <div class="chip-row">
+            <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">MongoDB</span><span class="chip">Admin Dashboard</span>
+          </div>
+          <div class="project-links">
+            <a href="#" aria-label="ClayMold GitHub repository">github →</a>
+            <a href="#" aria-label="ClayMold live demo">live demo →</a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-name">LuminaBooks <span class="sub">— LuminaBooks discovery app</span></div>
+            <div class="project-index">03</div>
+          </div>
+          <p class="desc">A book discovery app built on the Open Library API, with skeleton loading states, pagination, and a clean flat design system for browsing and searching titles.</p>
+          <div class="chip-row">
+            <span class="chip">React</span><span class="chip">REST API</span><span class="chip">UI/UX</span>
+          </div>
+          <div class="project-links">
+            <a href="#" aria-label="ReadShelf GitHub repository">github →</a>
+            <a href="#" aria-label="ReadShelf live demo">live demo →</a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-name">GameDeals <span class="sub">— Flutter deals tracker</span></div>
+            <div class="project-index">04</div>
+          </div>
+          <p class="desc">A Flutter app surfacing live deals from the CheapShark and FreeToGame APIs, built with Riverpod for state management, Hive for local storage, and go_router for navigation — developed through a full iterative build-and-debug cycle for a course presentation.</p>
+          <div class="chip-row">
+            <span class="chip">Flutter</span><span class="chip">Riverpod</span><span class="chip">Hive</span><span class="chip">go_router</span>
+          </div>
+          <div class="project-links">
+            <a href="#" aria-label="GameDeals GitHub repository">github →</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="eyebrow">contact --send</div>
+      <h2 class="title">Get in touch</h2>
+      <div class="contact-box reveal">
+        <div>
+          <p style="color:var(--muted); max-width:420px; font-size:15px;">Open to internship and junior developer roles in Pakistan and the UAE. Happy to walk through any of the projects above in more detail.</p>
+        </div>
+        <div class="contact-links">
+          <div><span class="k">email</span><br><a href="mailto:Saadniazi70@gmail.com">Saadniazi70@gmail.com</a></div>
+          <div><span class="k">github</span><br><a href="#">github.com/saad1235-alt</a></div>
+          <div><span class="k">linkedin</span><br><a href="#">linkedin.com/in/saad-khan-5813a83a2</a></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    built with the terminal in mind · Saad, <span id="year"></span>
+  </footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Hero terminal typing sequence
+  const lines = [
+    { p: 'saad@dev:~$ ', t: 'whoami', out: '' },
+    { p: '> ', t: 'Saad — MERN Stack Developer', out: true },
+    { p: 'saad@dev:~$ ', t: 'status --current', out: '' },
+    { p: '> ', t: 'Second-year CS student, open to internship & junior roles', out: true },
+    { p: 'saad@dev:~$ ', t: 'location', out: '' },
+    { p: '> ', t: 'Multan, Pakistan · UAE visa holder, no sponsorship needed', out: true }
+  ];
+
+  const el = document.getElementById('typed');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderStatic(){
+    el.innerHTML = lines.map(l => {
+      const cls = l.out ? 'out' : 'prompt';
+      return `<div class="line"><span class="${cls}">${l.p}${l.t}</span></div>`;
+    }).join('');
+  }
+
+  async function typeSequence(){
+    for (const l of lines) {
+      const div = document.createElement('div');
+      div.className = 'line';
+      const promptSpan = document.createElement('span');
+      promptSpan.className = l.out ? 'out' : 'prompt';
+      div.appendChild(promptSpan);
+      el.appendChild(div);
+      let str = l.p + l.t;
+      for (let i = 0; i < str.length; i++) {
+        promptSpan.textContent += str[i];
+        await new Promise(r => setTimeout(r, l.out ? 12 : 22));
+      }
+      await new Promise(r => setTimeout(r, 120));
+    }
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    el.lastElementChild.appendChild(cursor);
+  }
+
+  if (reduced) {
+    renderStatic();
+  } else {
+    typeSequence();
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduced) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(elx => io.observe(elx));
+  } else {
+    revealEls.forEach(elx => elx.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
