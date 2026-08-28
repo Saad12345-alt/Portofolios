@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saad Ahmad Khan — Full-Stack Developer</title>
+<meta name="description" content="Saad Ahmad Khan — Full-Stack Developer & MERN Stack Specialist based in Multan, Pakistan. Security-first engineering, real-time apps, and shipped projects.">
+<meta name="theme-color" content="#F5F6F8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232354E6'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3ESAK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6F8;
+    --bg-elevated:#FFFFFF;
+    --ink:#10141A;
+    --ink-muted:#5B6472;
+    --accent:#2354E6;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#E8EEFE;
+    --online:#1FAE6E;
+    --border:#E1E4EA;
+    --shadow:0 1px 2px rgba(16,20,26,0.04), 0 12px 28px rgba(16,20,26,0.07);
+    --radius:14px;
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'Inter', system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  [data-theme="dark"]{
+    --bg:#0A0D12;
+    --bg-elevated:#12161D;
+    --ink:#EDEFF3;
+    --ink-muted:#9AA3B2;
+    --accent:#5C8DFF;
+    --accent-ink:#0A0D12;
+    --accent-soft:#17233F;
+    --online:#34D399;
+    --border:#232933;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 12px 28px rgba(0,0,0,0.45);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    transition:background .3s ease, color .3s ease;
+  }
+  img,svg{display:block;}
+  a{color:inherit;text-decoration:none;}
+
+  .skip-link{
+    position:absolute; left:-999px; top:0; z-index:100;
+    background:var(--accent); color:var(--accent-ink);
+    padding:10px 16px; border-radius:0 0 8px 0; font-family:var(--mono); font-size:13px;
+  }
+  .skip-link:focus{left:0;}
+
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(20px,5vw,40px);}
+
+  /* Topbar */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px clamp(20px,5vw,40px);
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-weight:700; font-size:14px;}
+  .logo-mark{
+    width:30px; height:30px; border-radius:8px; background:var(--accent); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center; font-size:12px; letter-spacing:.02em;
+  }
+  .topnav{display:none; gap:28px; font-family:var(--mono); font-size:13px; color:var(--ink-muted);}
+  .topnav a:hover{color:var(--accent);}
+  @media (min-width:720px){ .topnav{display:flex;} }
+
+  .theme-toggle{
+    width:38px; height:38px; border-radius:10px; border:1px solid var(--border);
+    background:var(--bg-elevated); color:var(--ink); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:border-color .2s ease, transform .15s ease;
+  }
+  .theme-toggle:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .theme-toggle svg{width:18px; height:18px;}
+  .theme-toggle .sun-icon{display:none;}
+  [data-theme="dark"] .theme-toggle .sun-icon{display:block;}
+  [data-theme="dark"] .theme-toggle .moon-icon{display:none;}
+
+  /* Hero */
+  .hero{
+    display:grid; gap:48px; padding:clamp(48px,9vw,96px) 0 clamp(40px,7vw,72px);
+    grid-template-columns:1fr;
+  }
+  @media (min-width:860px){ .hero{grid-template-columns:1.15fr 0.85fr; align-items:center;} }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.03em; color:var(--ink-muted);
+    background:var(--bg-elevated); border:1px solid var(--border);
+    padding:6px 12px; border-radius:100px; margin:0 0 20px;
+  }
+  .pulse-dot{
+    width:8px; height:8px; border-radius:50%; background:var(--online); position:relative; flex:none;
+  }
+  .pulse-dot::after{
+    content:''; position:absolute; inset:-4px; border-radius:50%; background:var(--online);
+    opacity:.5; animation:pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{ 0%{transform:scale(.6); opacity:.55;} 100%{transform:scale(2.1); opacity:0;} }
+
+  h1{
+    font-family:var(--mono); font-weight:800; letter-spacing:-.01em;
+    font-size:clamp(34px, 6.4vw, 58px); line-height:1.04; margin:0 0 12px;
+  }
+  .role{
+    font-family:var(--mono); font-weight:600; font-size:clamp(14px,2.4vw,17px);
+    color:var(--accent); margin:0 0 20px;
+  }
+  .summary{ font-size:clamp(15px,2vw,17px); color:var(--ink-muted); max-width:52ch; margin:0 0 28px; }
+
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:28px;}
+  .btn{
+    font-family:var(--sans); font-weight:600; font-size:14.5px;
+    padding:12px 20px; border-radius:10px; border:1px solid transparent;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, opacity .2s ease, border-color .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--accent); color:var(--accent-ink);}
+  .btn-primary:hover{opacity:.9;}
+  .btn-ghost{background:var(--bg-elevated); color:var(--ink); border-color:var(--border);}
+  .btn-ghost:hover{border-color:var(--accent);}
+  .btn svg{width:15px; height:15px;}
+
+  .fact-strip{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    font-family:var(--mono); font-size:12.5px; color:var(--ink-muted);
+  }
+  .fact-strip span.sep{opacity:.5;}
+
+  /* Hero chat mock */
+  .chat-mock{
+    background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden; max-width:380px; margin-inline:auto;
+    opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;
+  }
+  .chat-mock.is-visible{opacity:1; transform:translateY(0);}
+  .chat-mock-header{
+    display:flex; align-items:center; gap:8px; padding:12px 16px;
+    border-bottom:1px solid var(--border); font-family:var(--mono); font-size:12px; color:var(--ink-muted);
+  }
+  .chat-mock-header .pulse-dot{background:var(--online);}
+  .chat-mock-body{padding:20px 16px; min-height:150px; display:flex; flex-direction:column; gap:10px; justify-content:flex-end;}
+  .bubble{
+    max-width:78%; padding:10px 14px; border-radius:14px; font-size:13.5px; line-height:1.4;
+    opacity:0; transform:translateY(8px) scale(.98); transition:opacity .35s ease, transform .35s ease;
+  }
+  .bubble.is-visible{opacity:1; transform:translateY(0) scale(1);}
+  .bubble-in{align-self:flex-start; background:var(--accent-soft); color:var(--ink); border-bottom-left-radius:4px;}
+  .bubble-out{align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:4px;}
+
+  /* Sections */
+  .section{padding:clamp(40px,7vw,64px) 0; border-top:1px solid var(--border);}
+  .section-label{
+    font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:600;
+    margin:0 0 22px; letter-spacing:.02em;
+  }
+  .about-text{font-size:clamp(15px,2vw,17px); color:var(--ink-muted); max-width:64ch;}
+
+  .stack-grid{display:grid; gap:28px; grid-template-columns:1fr; }
+  @media (min-width:640px){ .stack-grid{grid-template-columns:1fr 1fr;} }
+  .stack-group h3{font-size:13px; font-family:var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); margin:0 0 12px; font-weight:600;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--mono); font-size:12.5px; padding:6px 11px; border-radius:8px;
+    background:var(--bg-elevated); border:1px solid var(--border); color:var(--ink);
+  }
+
+  .project-list{display:flex; flex-direction:column; gap:20px;}
+  .project-card{
+    background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius);
+    padding:clamp(22px,3vw,30px); box-shadow:var(--shadow);
+    opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;
+  }
+  .project-card.is-visible{opacity:1; transform:translateY(0);}
+  .project-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;}
+  .status-tag{
+    font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.04em;
+    padding:4px 9px; border-radius:6px; text-transform:uppercase;
+  }
+  .status-tag.live{background:color-mix(in srgb, var(--online) 16%, transparent); color:var(--online);}
+  .status-tag.source{background:var(--accent-soft); color:var(--accent);}
+  .project-card h3{font-family:var(--mono); font-size:19px; margin:0;}
+  .project-card p.desc{color:var(--ink-muted); margin:0 0 14px; font-size:14.5px;}
+  .project-card ul{margin:0 0 16px; padding-left:20px; color:var(--ink-muted); font-size:14px;}
+  .project-card li{margin-bottom:6px;}
+  .project-links{display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; font-family:var(--mono); font-size:13px;}
+  .project-links a{display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-weight:600;}
+  .project-links a:hover{text-decoration:underline;}
+  .project-links svg{width:13px; height:13px;}
+
+  .edu-list{display:flex; flex-direction:column; gap:18px;}
+  .edu-item h3{font-size:16px; margin:0 0 4px;}
+  .edu-item p{margin:0; color:var(--ink-muted); font-size:14px; font-family:var(--mono);}
+
+  .contact-section h2{font-family:var(--mono); font-size:clamp(24px,4vw,32px); margin:0 0 10px;}
+  .contact-section > p{color:var(--ink-muted); max-width:50ch; margin:0 0 28px;}
+  .contact-links{display:grid; gap:12px; grid-template-columns:1fr;}
+  @media (min-width:640px){ .contact-links{grid-template-columns:1fr 1fr;} }
+  .contact-link{
+    display:flex; align-items:center; gap:12px; padding:14px 16px;
+    background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px;
+    font-size:14px; transition:border-color .2s ease, transform .15s ease;
+  }
+  .contact-link:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .contact-link svg{width:17px; height:17px; color:var(--accent); flex:none;}
+  .contact-link .label{color:var(--ink-muted); font-family:var(--mono); font-size:11px; display:block; margin-bottom:2px;}
+
+  .footer{
+    text-align:center; padding:28px 20px 40px; font-family:var(--mono); font-size:12px; color:var(--ink-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="logo"><span class="logo-mark">SAK</span> saad.dev</div>
+  <nav class="topnav">
+    <a href="#about">About</a>
+    <a href="#stack">Stack</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse-dot"></span> Available for internships &amp; junior roles</p>
+        <h1>Saad Ahmad&nbsp;Khan</h1>
+        <p class="role">Full-Stack Developer — MERN Stack Specialist</p>
+        <p class="summary">I build production-quality MERN applications with a security-first mindset — rate limiting, input sanitization, and HTTP hardening included by default. Currently a Software Engineering student, looking for my first internship or junior role.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:saadniazi70@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Email me
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">
+            View GitHub
+          </a>
+          <a class="btn btn-ghost" href="./resume.pdf" download>
+            Résumé
+          </a>
+        </div>
+        <div class="fact-strip">
+          <span>Multan, Pakistan</span><span class="sep">·</span>
+          <span>BSSE @ NFC-IET, 2023–2027</span><span class="sep">·</span>
+          <span>GPA 3.4/4.0</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="chat-mock" id="chatMock">
+          <div class="chat-mock-header"><span class="pulse-dot"></span> SecureChat — socket: connected</div>
+          <div class="chat-mock-body">
+            <div class="bubble bubble-in" id="bubble1">any luck finding a dev for the internship?</div>
+            <div class="bubble bubble-out" id="bubble2">found him. check the projects below 👇</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2 class="section-label">// about</h2>
+      <p class="about-text">Software Engineering student with a habit of shipping real, working software instead of tutorials-followed-along. Every project below is deployed, source-available, or both — built to be opened and used, not just described. I care about the parts junior developers tend to skip: sanitizing inputs, rate-limiting APIs, and writing TypeScript interfaces that make the next person's life easier — even when that person is me, six months later.</p>
+    </section>
+
+    <section id="stack" class="section">
+      <h2 class="section-label">// stack</h2>
+      <div class="stack-grid">
+        <div class="stack-group">
+          <h3>Backend &amp; Runtime</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">REST APIs</span>
+            <span class="chip">JWT Auth</span><span class="chip">Socket.io</span><span class="chip">Rate Limiting</span>
+            <span class="chip">Helmet.js</span><span class="chip">Mongoose</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Frontend</h3>
+          <div class="chips">
+            <span class="chip">React.js</span><span class="chip">TypeScript</span><span class="chip">JavaScript (ES6+)</span>
+            <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Tailwind CSS</span>
+            <span class="chip">Custom Hooks</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Databases</h3>
+          <div class="chips">
+            <span class="chip">MongoDB</span><span class="chip">MySQL</span><span class="chip">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Tools &amp; Other</h3>
+          <div class="chips">
+            <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Postman</span>
+            <span class="chip">Vercel</span><span class="chip">Java</span><span class="chip">AI Integration</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2 class="section-label">// projects</h2>
+      <div class="project-list">
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="status-tag source">Source</span>
+            <h3>SimpleChat</h3>
+          </div>
+          <p class="desc">A real-time chat application built on the MERN stack — no polling, no lag, just WebSockets doing their job.</p>
+          <ul>
+            <li>Architected bidirectional real-time messaging with Socket.io, including room-based communication</li>
+            <li>Migrated the full codebase from JavaScript to TypeScript — typed Express routes, Mongoose models, and Socket.io events</li>
+            <li>Hardened the backend with Helmet.js, express-rate-limit, and mongo-sanitize to close off common attack vectors</li>
+            <li>Built multimedia file-sharing with Multer, restricted by file type and size</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">MongoDB</span><span class="chip">Express.js</span><span class="chip">React</span>
+            <span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">Socket.io</span><span class="chip">Helmet.js</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/saad12345-alt/SimpleChat" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              GitHub
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="status-tag source">Source</span>
+            <h3>ClayMold</h3>
+          </div>
+          <p class="desc">A full-stack e-commerce platform with its own admin dashboard — inventory, orders, and role-based access baked in.</p>
+          <ul>
+            <li>Built product listings, cart, and order management alongside an admin dashboard with role-based access control</li>
+            <li>Sanitized every user input against NoSQL injection with express-mongo-sanitize</li>
+            <li>Added debounced search and price-range sorting, with a persistent cart via LocalStorage — products load in under 500ms</li>
+            <li>Wrote custom React hooks to keep business logic out of components</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">MongoDB</span><span class="chip">Express.js</span><span class="chip">React</span>
+            <span class="chip">Node.js</span><span class="chip">REST API</span><span class="chip">LocalStorage</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/saad12345-alt/ClayMold" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              GitHub
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">
+            <span class="status-tag live">Live</span>
+            <h3>LuminaBooks</h3>
+          </div>
+          <p class="desc">A book discovery app on top of the Open Library API — search, browse, and save, with a live public deployment.</p>
+          <ul>
+            <li>Integrated the Open Library public API for real-world third-party data and async handling</li>
+            <li>Added skeleton loading cards with shimmer animations to smooth out pagination</li>
+            <li>Deployed live on Vercel — open, working, and ready for a recruiter to click through</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">React</span><span class="chip">Open Library API</span><span class="chip">REST</span><span class="chip">CSS3</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/saad12345-alt/LuminoBook" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              GitHub
+            </a>
+            <a href="https://luminabooks-three.vercel.app" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+              Live site
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="education" class="section">
+      <h2 class="section-label">// education</h2>
+      <div class="edu-list">
+        <div class="edu-item">
+          <h3>Bachelor of Science, Software Engineering</h3>
+          <p>NFC-IET, Multan, Pakistan · 2023–2027 (Expected) · GPA 3.4/4.0</p>
+        </div>
+        <div class="edu-item">
+          <h3>High School Diploma — Science</h3>
+          <p>International School of Choueifat, Abu Dhabi, UAE · 2023</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <h2 class="section-label">// contact</h2>
+      <h2>Let's build something.</h2>
+      <p>Open to internship and junior developer roles across Pakistan and the UAE.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:saadniazi70@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span><span class="label">Email</span>saadniazi70@gmail.com</span>
+        </a>
+        <a class="contact-link" href="https://wa.me/923071549440" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span><span class="label">WhatsApp</span>+92 307 1549440</span>
+        </a>
+        <a class="contact-link" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          <span><span class="label">GitHub</span>saad12345-alt</span>
+        </a>
+        <a class="contact-link" href="https://linkedin.com/in/saad-khan-5813a83a2" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          <span><span class="label">LinkedIn</span>saad-khan</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">© 2026 Saad Ahmad Khan</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+  function apply(t){
+    root.setAttribute('data-theme', t);
+    toggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+  }
+  apply(theme);
+
+  toggle.addEventListener('click', function(){
+    theme = theme === 'dark' ? 'light' : 'dark';
+    apply(theme);
+  });
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Hero chat mock sequence
+  var chatMock = document.getElementById('chatMock');
+  var b1 = document.getElementById('bubble1');
+  var b2 = document.getElementById('bubble2');
+  if(reduceMotion){
+    chatMock.classList.add('is-visible');
+    b1.classList.add('is-visible');
+    b2.classList.add('is-visible');
+  } else {
+    setTimeout(function(){ chatMock.classList.add('is-visible'); }, 200);
+    setTimeout(function(){ b1.classList.add('is-visible'); }, 700);
+    setTimeout(function(){ b2.classList.add('is-visible'); }, 1500);
+  }
+
+  // Scroll-reveal for project cards
+  var cards = document.querySelectorAll('.project-card');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    cards.forEach(function(c){ io.observe(c); });
+  } else {
+    cards.forEach(function(c){ c.classList.add('is-visible'); });
+  }
+})();
+</script>
+</body>
+</html>
