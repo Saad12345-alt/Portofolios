@@ -2,507 +2,1300 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Saad Ahmad Khan — Full-Stack Developer</title>
-<meta name="description" content="Saad Ahmad Khan — Full-Stack Developer & MERN Stack Specialist based in Multan, Pakistan. Security-first engineering, real-time apps, and shipped projects.">
-<meta name="theme-color" content="#F5F6F8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232354E6'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3ESAK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  // Prevent flash of incorrect theme on load
+  const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", savedTheme);
+</script>
 <style>
-  :root{
-    --bg:#F5F6F8;
-    --bg-elevated:#FFFFFF;
-    --ink:#10141A;
-    --ink-muted:#5B6472;
-    --accent:#2354E6;
-    --accent-ink:#FFFFFF;
-    --accent-soft:#E8EEFE;
-    --online:#1FAE6E;
-    --border:#E1E4EA;
-    --shadow:0 1px 2px rgba(16,20,26,0.04), 0 12px 28px rgba(16,20,26,0.07);
-    --radius:14px;
-    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-    --sans:'Inter', system-ui, -apple-system, sans-serif;
-    color-scheme: light;
-  }
-  [data-theme="dark"]{
-    --bg:#0A0D12;
-    --bg-elevated:#12161D;
-    --ink:#EDEFF3;
-    --ink-muted:#9AA3B2;
-    --accent:#5C8DFF;
-    --accent-ink:#0A0D12;
-    --accent-soft:#17233F;
-    --online:#34D399;
-    --border:#232933;
-    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 12px 28px rgba(0,0,0,0.45);
-    color-scheme: dark;
+/* ---------- Light Mode (Default) ---------- */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f4f4f5;
+  --surface: #ffffff;
+  --surface-2: #fafafa;
+  --border: #e4e4e7;
+  --border-soft: #f4f4f5;
+  --text: #09090b;
+  --text-dim: #52525b;
+  --text-faint: #a1a1aa;
+  
+  --accent: #09090b;
+  --accent-dim: #52525b;
+  --accent-soft: rgba(0,0,0,0.06);
+  --accent-hover: #27272a;
+  
+  --font-d: 'Space Grotesk', sans-serif;
+  --font-b: 'IBM Plex Sans', sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+  --safe-t: env(safe-area-inset-top,0px);
+  --safe-b: env(safe-area-inset-bottom,0px);
+}
+
+/* ---------- Dark Mode ---------- */
+[data-theme="dark"] {
+  --bg: #09090b;
+  --bg-soft: #121214;
+  --surface: #09090b;
+  --surface-2: #18181b;
+  --border: #27272a;
+  --border-soft: #18181b;
+  --text: #fafafa;
+  --text-dim: #a1a1aa;
+  --text-faint: #52525b;
+  
+  --accent: #ffffff;
+  --accent-dim: #a1a1aa;
+  --accent-soft: rgba(255,255,255,0.1);
+  --accent-hover: #e4e4e7;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(64px + var(--safe-t));}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  line-height:1.6;
+  padding-top:var(--safe-t);
+  padding-bottom:var(--safe-b);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+  transition: background 0.3s, color 0.3s;
+}
+::selection{background:var(--accent);color:var(--bg);}
+a{color:inherit;}
+img,svg{max-width:100%;display:block;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+@media(max-width:640px){.wrap{padding:0 18px;}}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  padding-top:var(--safe-t);
+  background:var(--bg);
+  border-bottom:1px solid var(--border-soft);
+  transition: background 0.3s, border-color 0.3s;
+}
+.nav-inner{max-width:1180px;margin:0 auto;padding:12px 28px;display:flex;align-items:center;gap:26px;}
+@media(max-width:640px){.nav-inner{padding:10px 16px;gap:0;}}
+.brand{font-family:var(--font-m);font-size:13px;color:var(--accent);letter-spacing:.02em;white-space:nowrap;display:flex;align-items:center;gap:8px;font-weight:600;}
+.brand-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.tabs{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-left:auto;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  font-family:var(--font-m);font-size:12.5px;color:var(--text-dim);
+  padding:8px 14px;border-radius:8px 8px 0 0;white-space:nowrap;
+  border:1px solid transparent;border-bottom:none;
+  text-decoration:none;transition:color .25s, background .25s;
+}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent);background:var(--surface);border-color:var(--border-soft);}
+
+#themeToggle {
+  padding: 6px;
+  margin-left: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+#themeToggle:hover { border-color: var(--accent); transform: scale(1.05); }
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 56px;}
+@media(max-width:640px){.hero{padding:36px 0 40px;}}
+.hero-grid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:center;}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:38px;}}
+
+.badge{
+  display:inline-flex;align-items:center;gap:7px;font-family:var(--font-m);font-size:11.5px;
+  color:var(--accent);background:var(--accent-soft);border:1px solid var(--border);
+  padding:5px 11px;border-radius:20px;margin-bottom:18px;
+}
+.badge::before{content:"●";font-size:8px;color:var(--accent);}
+
+.h1{font-family:var(--font-d);font-weight:700;font-size:clamp(30px,4.4vw,46px);line-height:1.08;margin:0 0 14px;letter-spacing:-.01em;}
+.sub{color:var(--text-dim);font-size:16px;max-width:52ch;margin:0 0 26px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--font-b);font-weight:600;font-size:14px;
+  padding:11px 22px;border-radius:999px;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s;
+  border:1px solid transparent;cursor:pointer;
+}
+.btn:active{transform:scale(.97);}
+.btn-solid{background:var(--accent);color:var(--bg);}
+.btn-solid:hover{background:var(--accent-hover);transform:translateY(-2px);}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+.btn-sm{padding:8px 16px;font-size:13px;}
+
+/* terminal panel */
+.term{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.15);
+}
+.term-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--border-soft);}
+.term-dot{width:9px;height:9px;border-radius:50%;}
+.term-body{padding:18px 20px 22px;font-family:var(--font-m);font-size:13px;color:var(--text-dim);min-height:190px;}
+.term-body .l{white-space:pre-wrap;margin:0 0 2px;}
+.term-body .cmd{color:var(--accent);}
+.term-body .out{color:var(--text);}
+.term-body .dim{color:var(--text-faint);}
+.caret{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:-2px;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ---------- 3D flip card ---------- */
+.card-stage{display:flex;justify-content:center;}
+.card-shell{
+  width:100%; max-width:314px; padding:7px; border-radius:27px;
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+}
+.card-scene{width:100%;height:406px;perspective:1400px;}
+@media(max-width:900px){.card-scene{height:380px;}}
+.card-inner{
+  position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .85s cubic-bezier(.22,.9,.24,1);
+}
+.card-inner.flipped{transform:rotateY(180deg);}
+.card-face{
+  position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;
+  border:1px solid var(--border);padding:26px 24px;
+  display:flex;flex-direction:column;
+  background:var(--surface);
+}
+.card-front{
+  cursor:pointer;
+  justify-content:space-between;
+}
+.card-back{
+  transform:rotateY(180deg);
+  cursor:pointer;
+}
+.avatar{
+  width:74px;height:74px;border-radius:16px;
+  background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-weight:700;font-size:24px;color:var(--bg);
+}
+.card-name{font-family:var(--font-d);font-weight:700;font-size:22px;margin:16px 0 4px;}
+.card-role{color:var(--accent-dim);font-size:13px;font-family:var(--font-m);margin:0 0 10px;}
+.card-loc{color:var(--text-faint);font-size:12.5px;margin:0;}
+.card-hint{align-self:flex-end;font-family:var(--font-m);font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:6px;}
+
+.back-label{font-family:var(--font-m);font-size:11px;color:var(--text-faint);margin-bottom:14px; cursor:pointer;}
+.back-row{display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px solid var(--border-soft);gap:14px;}
+.back-row b{color:var(--text);font-weight:600;}
+.back-row span{color:var(--text-dim);text-align:right;}
+
+/* ---------- generic sections ---------- */
+.section{padding:78px 0;}
+@media(max-width:640px){.section{padding:52px 0;}}
+.section-head{margin-bottom:34px;}
+.eyebrow{font-family:var(--font-m);font-size:12px;color:var(--accent);margin:0 0 8px;}
+.h2{font-family:var(--font-d);font-weight:700;font-size:clamp(24px,3vw,32px);margin:0;letter-spacing:-.01em;}
+.section-desc{color:var(--text-dim);max-width:60ch;margin:10px 0 0;font-size:15px;}
+
+/* ---------- stack ---------- */
+.stackfile{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  font-family:var(--font-m);font-size:13.5px;overflow:hidden;
+  box-shadow:0 30px 60px -35px rgba(0,0,0,.1);
+}
+.stackfile-bar{padding:10px 16px;background:var(--surface-2);border-bottom:1px solid var(--border-soft);color:var(--text-faint);font-size:12px;}
+.stackfile-body{padding:22px 24px 26px;overflow-x:auto;}
+.sf-line{color:var(--text-dim);}
+.sf-key{color:var(--text);}
+.sf-chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px 18px;}
+.chip{
+  background:var(--bg-soft);border:1px solid var(--border);color:var(--accent);
+  padding:5px 11px;border-radius:7px;font-size:12.5px;white-space:nowrap;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s;
+}
+.chip:hover{transform:translateY(-2px);background:var(--surface-2);}
+.chip.mut{color:var(--text-dim);}
+
+/* ---------- projects / road ---------- */
+.road-wrap{
+  position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--border);
+  background:var(--bg-soft);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.15);
+}
+.road-canvas-holder{position:relative;width:100%;height:480px;}
+@media(max-width:640px){.road-canvas-holder{height:400px;}}
+.road-canvas-holder canvas{display:block;width:100%;height:100%;position:relative;z-index:1; outline:none;}
+.road-fallback{
+  position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  font-family:var(--font-m);font-size:13px;color:var(--text-faint);text-align:center;padding:20px;z-index:2;
+}
+.road-hint{
+  position:absolute;left:16px;bottom:14px;z-index:5;font-family:var(--font-m);font-size:11.5px;
+  color:var(--text-dim);background:var(--surface);padding:6px 10px;border-radius:7px;
+  border:1px solid var(--border);
+}
+
+#markerLayer{position:absolute;inset:0;z-index:3;pointer-events:none;}
+.project-marker{
+  position:absolute;top:0;left:0;transform:translate(-50%,-100%);
+  pointer-events:auto;cursor:pointer;
+}
+.marker-tag{
+  position:relative;background:var(--surface);border:1px solid var(--border);border-radius:9px;
+  padding:8px 12px;min-width:128px;box-shadow:0 10px 24px -10px rgba(0,0,0,.2);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s;
+}
+.project-marker:hover .marker-tag{transform:translateY(-4px);border-color:var(--accent);}
+.marker-tag::after{
+  content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(45deg);
+  width:11px;height:11px;background:var(--surface);border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.project-marker:hover .marker-tag::after{border-color:var(--accent);}
+.marker-name{font-family:var(--font-d);font-weight:700;font-size:13.5px;color:var(--text);}
+.marker-sub{font-family:var(--font-m);font-size:10.5px;color:var(--text-dim);margin-top:2px;}
+
+.projects-sub{font-family:var(--font-m);font-size:12px;color:var(--text-faint);margin:28px 0 16px;}
+
+/* Scalable Project Grid */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:18px;}
+
+.pcard{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;text-align:left;cursor:pointer;padding:0;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s;
+  box-shadow:0 20px 45px -32px rgba(0,0,0,.15);
+  font-family:inherit;color:inherit;
+}
+.pcard:hover{transform:translateY(-5px);border-color:var(--accent);}
+.pcard-art{width:100%;background:var(--bg-soft);border-bottom:1px solid var(--border-soft);}
+.pcard-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.pcard-name{font-family:var(--font-d);font-weight:700;font-size:16px;}
+.pcard-tag{color:var(--text-dim);font-size:13px;margin:0;flex:1;}
+.pcard-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.pcard-chips .chip{padding:3px 9px;font-size:11px;}
+.pcard-cta{font-family:var(--font-m);font-size:12px;color:var(--accent);display:flex;align-items:center;gap:6px;margin-top:2px;}
+
+/* Detail & Resume Drawers */
+.drawer-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);
+  z-index:60;opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.drawer-backdrop.open{opacity:1;pointer-events:auto;}
+.drawer-panel{
+  position:fixed;top:0;right:0;height:100%;
+  background:var(--bg);border-left:1px solid var(--border);
+  z-index:61;transform:translateX(100%);transition:transform .45s cubic-bezier(.22,.9,.24,1);
+  overflow-y:auto;padding:26px 26px calc(26px + var(--safe-b));
+}
+.drawer-panel.open{transform:translateX(0);}
+.detail-panel{width:460px; max-width:92vw;}
+.resume-panel{width:700px; max-width:95vw;}
+
+.drawer-close{
+  background:var(--surface);border:1px solid var(--border);color:var(--text-dim);
+  width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:.25s;
+}
+.drawer-close:hover{color:var(--text);border-color:var(--accent);}
+
+/* Drawer Content Styling */
+.detail-art-shell{
+  padding:6px;border-radius:18px;
+  background:var(--bg-soft);
+  border:1px solid var(--border);margin-bottom:20px;
+}
+.detail-art{width:100%;border-radius:13px;overflow:hidden;background:var(--surface);display:block;}
+.detail-name{font-family:var(--font-d);font-weight:700;font-size:24px;margin:0 0 8px;}
+.detail-tag{color:var(--text-dim);font-size:14.5px;margin:0 0 18px;}
+.detail-sub{font-family:var(--font-m);font-size:11px;color:var(--accent);margin:22px 0 10px;}
+.detail-bullets{margin:0;padding:0;list-style:none;}
+.detail-bullets li{
+  padding:9px 0 9px 18px;border-bottom:1px solid var(--border-soft);font-size:13.5px;color:var(--text-dim);
+  position:relative;
+}
+.detail-bullets li::before{content:"›";position:absolute;left:0;color:var(--accent);}
+.detail-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;}
+.detail-links{display:flex;gap:10px;margin-top:22px;}
+
+/* Resume content styles */
+.resume-content h2 {font-family:var(--font-d); margin-bottom:4px;}
+.resume-content p {color:var(--text-dim); margin-top:0; font-size:14.5px;}
+.resume-content h3 {border-bottom:1px solid var(--border-soft); padding-bottom:4px; margin-top:24px; font-size:15px; font-family:var(--font-m); letter-spacing:0.02em;}
+.resume-content ul {padding-left:20px; color:var(--text-dim); font-size:14px;}
+.resume-content ul li {margin-bottom:8px;}
+
+/* ---------- timelines ---------- */
+.tline-cols{display:grid;grid-template-columns:1fr 1fr;gap:52px;}
+@media(max-width:820px){.tline-cols{grid-template-columns:1fr;gap:44px;}}
+.tline-col-head{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.tline-col-ico{
+  width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  background:var(--accent-soft);color:var(--accent);flex-shrink:0;
+}
+.tline-col-title{font-family:var(--font-d);font-weight:700;font-size:18px;}
+
+.tline{position:relative;}
+.tline-item{display:grid;grid-template-columns:96px 1fr;gap:18px;position:relative;padding-bottom:34px;}
+.tline-item:last-child{padding-bottom:0;}
+@media(max-width:480px){.tline-item{grid-template-columns:24px 1fr;gap:14px;}}
+.tline-rail{position:relative;display:flex;justify-content:flex-end;padding-right:18px;}
+@media(max-width:480px){.tline-rail{padding-right:0;justify-content:center;}}
+.tline-rail::before{
+  content:"";position:absolute;top:4px;bottom:-34px;right:5px;width:1px;background:var(--border);
+}
+@media(max-width:480px){.tline-rail::before{right:auto;left:11px;}}
+.tline-date{font-family:var(--font-m);font-size:11.5px;color:var(--text-faint);text-align:right;padding-top:2px;}
+@media(max-width:480px){.tline-date{display:none;}}
+.tline-dot{
+  position:absolute;top:2px;right:0;width:11px;height:11px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--accent-dim);
+}
+@media(max-width:480px){.tline-dot{right:auto;left:9px;}}
+.tline-dot.on{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft); border-color:var(--accent);}
+.tline-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+}
+.tline-date-m{display:none;font-family:var(--font-m);font-size:11.5px;color:var(--text-faint);margin-bottom:6px;}
+@media(max-width:480px){.tline-date-m{display:block;}}
+.tline-title{font-family:var(--font-d);font-weight:700;font-size:15.5px;margin:0 0 4px;}
+.tline-org{color:var(--text-dim);font-size:13px;margin:0 0 8px;}
+.tline-desc{color:var(--text-dim);font-size:13.2px;margin:0;}
+
+/* ---------- contact ---------- */
+/* Scalable Contact Grid */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;}
+
+.ccard-shell{
+  padding:5px;border-radius:18px;
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.ccard-shell:hover{transform:translateY(-4px);}
+.ccard{
+  background:var(--surface);border-radius:14px;padding:18px;
+  text-decoration:none;display:flex;flex-direction:column;gap:14px;height:100%;
+  border:1px solid var(--border-soft);
+}
+.ccard-ico{
+  width:38px;height:38px;border-radius:10px;background:var(--accent-soft);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);
+}
+.ccard-label{font-family:var(--font-m);font-size:11px;color:var(--text-faint);}
+.ccard-value{font-family:var(--font-d);font-weight:600;font-size:14px;color:var(--text);word-break:break-word;}
+
+.footer{border-top:1px solid var(--border-soft);padding:26px 0 calc(26px + var(--safe-b));}
+.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--font-m);font-size:12px;color:var(--text-faint);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.15s !important;scroll-behavior:auto !important;}
+}
+/* Hide the hamburger by default on desktop */
+/* Hide the hamburger by default on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* On desktop, keep nav-right contents inline if needed, or let them sit naturally */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Responsive behavior for mobile screens (e.g., below 768px) */
+@media (max-width: 768px) {
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--sans);
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    transition:background .3s ease, color .3s ease;
-  }
-  img,svg{display:block;}
-  a{color:inherit;text-decoration:none;}
-
-  .skip-link{
-    position:absolute; left:-999px; top:0; z-index:100;
-    background:var(--accent); color:var(--accent-ink);
-    padding:10px 16px; border-radius:0 0 8px 0; font-family:var(--mono); font-size:13px;
-  }
-  .skip-link:focus{left:0;}
-
-  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
-
-  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(20px,5vw,40px);}
-
-  /* Topbar */
-  .topbar{
-    position:sticky; top:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px clamp(20px,5vw,40px);
-    background:color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border);
-  }
-  .logo{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-weight:700; font-size:14px;}
-  .logo-mark{
-    width:30px; height:30px; border-radius:8px; background:var(--accent); color:var(--accent-ink);
-    display:flex; align-items:center; justify-content:center; font-size:12px; letter-spacing:.02em;
-  }
-  .topnav{display:none; gap:28px; font-family:var(--mono); font-size:13px; color:var(--ink-muted);}
-  .topnav a:hover{color:var(--accent);}
-  @media (min-width:720px){ .topnav{display:flex;} }
-
-  .theme-toggle{
-    width:38px; height:38px; border-radius:10px; border:1px solid var(--border);
-    background:var(--bg-elevated); color:var(--ink); cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition:border-color .2s ease, transform .15s ease;
-  }
-  .theme-toggle:hover{border-color:var(--accent); transform:translateY(-1px);}
-  .theme-toggle svg{width:18px; height:18px;}
-  .theme-toggle .sun-icon{display:none;}
-  [data-theme="dark"] .theme-toggle .sun-icon{display:block;}
-  [data-theme="dark"] .theme-toggle .moon-icon{display:none;}
-
-  /* Hero */
-  .hero{
-    display:grid; gap:48px; padding:clamp(48px,9vw,96px) 0 clamp(40px,7vw,72px);
-    grid-template-columns:1fr;
-  }
-  @media (min-width:860px){ .hero{grid-template-columns:1.15fr 0.85fr; align-items:center;} }
-
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:var(--mono); font-size:12.5px; letter-spacing:.03em; color:var(--ink-muted);
-    background:var(--bg-elevated); border:1px solid var(--border);
-    padding:6px 12px; border-radius:100px; margin:0 0 20px;
-  }
-  .pulse-dot{
-    width:8px; height:8px; border-radius:50%; background:var(--online); position:relative; flex:none;
-  }
-  .pulse-dot::after{
-    content:''; position:absolute; inset:-4px; border-radius:50%; background:var(--online);
-    opacity:.5; animation:pulse 2.2s ease-out infinite;
-  }
-  @keyframes pulse{ 0%{transform:scale(.6); opacity:.55;} 100%{transform:scale(2.1); opacity:0;} }
-
-  h1{
-    font-family:var(--mono); font-weight:800; letter-spacing:-.01em;
-    font-size:clamp(34px, 6.4vw, 58px); line-height:1.04; margin:0 0 12px;
-  }
-  .role{
-    font-family:var(--mono); font-weight:600; font-size:clamp(14px,2.4vw,17px);
-    color:var(--accent); margin:0 0 20px;
-  }
-  .summary{ font-size:clamp(15px,2vw,17px); color:var(--ink-muted); max-width:52ch; margin:0 0 28px; }
-
-  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:28px;}
-  .btn{
-    font-family:var(--sans); font-weight:600; font-size:14.5px;
-    padding:12px 20px; border-radius:10px; border:1px solid transparent;
-    display:inline-flex; align-items:center; gap:8px;
-    transition:transform .15s ease, opacity .2s ease, border-color .2s ease;
-  }
-  .btn:hover{transform:translateY(-2px);}
-  .btn-primary{background:var(--accent); color:var(--accent-ink);}
-  .btn-primary:hover{opacity:.9;}
-  .btn-ghost{background:var(--bg-elevated); color:var(--ink); border-color:var(--border);}
-  .btn-ghost:hover{border-color:var(--accent);}
-  .btn svg{width:15px; height:15px;}
-
-  .fact-strip{
-    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    font-family:var(--mono); font-size:12.5px; color:var(--ink-muted);
-  }
-  .fact-strip span.sep{opacity:.5;}
-
-  /* Hero chat mock */
-  .chat-mock{
-    background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius);
-    box-shadow:var(--shadow); overflow:hidden; max-width:380px; margin-inline:auto;
-    opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;
-  }
-  .chat-mock.is-visible{opacity:1; transform:translateY(0);}
-  .chat-mock-header{
-    display:flex; align-items:center; gap:8px; padding:12px 16px;
-    border-bottom:1px solid var(--border); font-family:var(--mono); font-size:12px; color:var(--ink-muted);
-  }
-  .chat-mock-header .pulse-dot{background:var(--online);}
-  .chat-mock-body{padding:20px 16px; min-height:150px; display:flex; flex-direction:column; gap:10px; justify-content:flex-end;}
-  .bubble{
-    max-width:78%; padding:10px 14px; border-radius:14px; font-size:13.5px; line-height:1.4;
-    opacity:0; transform:translateY(8px) scale(.98); transition:opacity .35s ease, transform .35s ease;
-  }
-  .bubble.is-visible{opacity:1; transform:translateY(0) scale(1);}
-  .bubble-in{align-self:flex-start; background:var(--accent-soft); color:var(--ink); border-bottom-left-radius:4px;}
-  .bubble-out{align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:4px;}
-
-  /* Sections */
-  .section{padding:clamp(40px,7vw,64px) 0; border-top:1px solid var(--border);}
-  .section-label{
-    font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:600;
-    margin:0 0 22px; letter-spacing:.02em;
-  }
-  .about-text{font-size:clamp(15px,2vw,17px); color:var(--ink-muted); max-width:64ch;}
-
-  .stack-grid{display:grid; gap:28px; grid-template-columns:1fr; }
-  @media (min-width:640px){ .stack-grid{grid-template-columns:1fr 1fr;} }
-  .stack-group h3{font-size:13px; font-family:var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); margin:0 0 12px; font-weight:600;}
-  .chips{display:flex; flex-wrap:wrap; gap:8px;}
-  .chip{
-    font-family:var(--mono); font-size:12.5px; padding:6px 11px; border-radius:8px;
-    background:var(--bg-elevated); border:1px solid var(--border); color:var(--ink);
+  .hamburger {
+    display: block; /* Show hamburger on mobile */
   }
 
-  .project-list{display:flex; flex-direction:column; gap:20px;}
-  .project-card{
-    background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius);
-    padding:clamp(22px,3vw,30px); box-shadow:var(--shadow);
-    opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;
-  }
-  .project-card.is-visible{opacity:1; transform:translateY(0);}
-  .project-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;}
-  .status-tag{
-    font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.04em;
-    padding:4px 9px; border-radius:6px; text-transform:uppercase;
-  }
-  .status-tag.live{background:color-mix(in srgb, var(--online) 16%, transparent); color:var(--online);}
-  .status-tag.source{background:var(--accent-soft); color:var(--accent);}
-  .project-card h3{font-family:var(--mono); font-size:19px; margin:0;}
-  .project-card p.desc{color:var(--ink-muted); margin:0 0 14px; font-size:14.5px;}
-  .project-card ul{margin:0 0 16px; padding-left:20px; color:var(--ink-muted); font-size:14px;}
-  .project-card li{margin-bottom:6px;}
-  .project-links{display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; font-family:var(--mono); font-size:13px;}
-  .project-links a{display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-weight:600;}
-  .project-links a:hover{text-decoration:underline;}
-  .project-links svg{width:13px; height:13px;}
-
-  .edu-list{display:flex; flex-direction:column; gap:18px;}
-  .edu-item h3{font-size:16px; margin:0 0 4px;}
-  .edu-item p{margin:0; color:var(--ink-muted); font-size:14px; font-family:var(--mono);}
-
-  .contact-section h2{font-family:var(--mono); font-size:clamp(24px,4vw,32px); margin:0 0 10px;}
-  .contact-section > p{color:var(--ink-muted); max-width:50ch; margin:0 0 28px;}
-  .contact-links{display:grid; gap:12px; grid-template-columns:1fr;}
-  @media (min-width:640px){ .contact-links{grid-template-columns:1fr 1fr;} }
-  .contact-link{
-    display:flex; align-items:center; gap:12px; padding:14px 16px;
-    background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px;
-    font-size:14px; transition:border-color .2s ease, transform .15s ease;
-  }
-  .contact-link:hover{border-color:var(--accent); transform:translateY(-2px);}
-  .contact-link svg{width:17px; height:17px; color:var(--accent); flex:none;}
-  .contact-link .label{color:var(--ink-muted); font-family:var(--mono); font-size:11px; display:block; margin-bottom:2px;}
-
-  .footer{
-    text-align:center; padding:28px 20px 40px; font-family:var(--mono); font-size:12px; color:var(--ink-muted);
+  /* Hide the tabs menu by default on mobile */
+  .tabs {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: var(--bg-color, #1a1a1a); /* Adjust to match your theme background */
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
   }
 
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  /* Show tabs when active */
+  .tabs.active {
+    display: flex;
   }
+}
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
-<header class="topbar">
-  <div class="logo"><span class="logo-mark">SAK</span> saad.dev</div>
-  <nav class="topnav">
-    <a href="#about">About</a>
-    <a href="#stack">Stack</a>
-    <a href="#projects">Projects</a>
-    <a href="#education">Education</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-  </button>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="brand-dot"></span>saad@portfolio</div>
+  
+    <!-- Navigation links dropdown -->
+    <div class="tabs" id="navTabs">
+      <a class="tab" data-target="hero" href="#hero">index.html</a>
+      <a class="tab" data-target="stack" href="#stack">stack.json</a>
+      <a class="tab" data-target="projects" href="#projects">projects.tsx</a>
+      <a class="tab" data-target="timeline" href="#timeline">timeline.md</a>
+      <a class="tab" data-target="contact" href="#contact">contact.sh</a>
+    </div>
+
+     <!-- Right side items for mobile (Theme toggle stays outside the hamburger dropdown) -->
+        <div class="nav-right">
+      <button id="themeToggle" aria-label="Toggle Dark Mode" title="Toggle Light/Dark Mode">🌓</button>
+      <button class="hamburger" id="hamburgerToggle" aria-label="Toggle Navigation">
+        ☰
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header id="hero" class="section hero">
+  <div class="wrap hero-grid">
+    <div class="card-stage">
+      <div class="card-shell">
+        <div class="card-scene" id="cardScene">
+          <div class="card-inner" id="cardInner">
+            <div class="card-face card-front" id="cardFrontTrigger">
+              <div>
+                <div class="avatar">SAK</div>
+                <div class="card-name">Saad Ahmad Khan</div>
+                <p class="card-role">Full-Stack Developer — MERN</p>
+                <p class="card-loc">Multan, Pakistan / Abu Dhabi, UAE</p>
+              </div>
+              <div class="card-hint">tap to flip ⟳</div>
+            </div>
+            <!-- ID added to the entire card-back container for click handling -->
+            <div class="card-face card-back" id="cardBackTrigger">
+              <p class="back-label">⟲ back to cover</p>
+              <div class="back-row"><b>Education</b><span>BSSE @ NFC-IET</span></div>
+              <div class="back-row"><b>Years</b><span>2023 – 2027</span></div>
+              <div class="back-row"><b>GPA</b><span>3.4 / 4.0</span></div>
+              <div class="back-row"><b>Visa</b><span>UAE Resident</span></div>
+              <div class="back-row" style="border-bottom:none;"><b>Focus</b><span>MERN Stack</span></div>
+              <button class="btn btn-solid btn-sm" id="viewResumeBtn" style="margin-top:auto; width:100%;">View full resume</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="badge">Open to internships &amp; junior roles</div>
+      <h1 class="h1">I build software that's actually finished, not just demoed.</h1>
+      <p class="sub">Software Engineering student with a habit of shipping real, working apps instead of tutorials-followed-along — security-first MERN, deployed and source-available.</p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="mailto:saadniazi70@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">View GitHub</a>
+      </div>
+
+      <div class="term" style="margin-top:30px;">
+        <div class="term-bar">
+          <div class="term-dot" style="background:#e5636b;"></div>
+          <div class="term-dot" style="background:#e7ab4d;"></div>
+          <div class="term-dot" style="background:#37d6b8;"></div>
+        </div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<main id="main">
+<section id="stack" class="section">
   <div class="wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="pulse-dot"></span> Available for internships &amp; junior roles</p>
-        <h1>Saad Ahmad&nbsp;Khan</h1>
-        <p class="role">Full-Stack Developer — MERN Stack Specialist</p>
-        <p class="summary">I build production-quality MERN applications with a security-first mindset — rate limiting, input sanitization, and HTTP hardening included by default. Currently a Software Engineering student, looking for my first internship or junior role.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:saadniazi70@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-            Email me
-          </a>
-          <a class="btn btn-ghost" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">
-            View GitHub
-          </a>
-          <a class="btn btn-ghost" href="./resume.pdf" download>
-            Résumé
-          </a>
-        </div>
-        <div class="fact-strip">
-          <span>Multan, Pakistan</span><span class="sep">·</span>
-          <span>BSSE @ NFC-IET, 2023–2027</span><span class="sep">·</span>
-          <span>GPA 3.4/4.0</span>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="chat-mock" id="chatMock">
-          <div class="chat-mock-header"><span class="pulse-dot"></span> SecureChat — socket: connected</div>
-          <div class="chat-mock-body">
-            <div class="bubble bubble-in" id="bubble1">any luck finding a dev for the internship?</div>
-            <div class="bubble bubble-out" id="bubble2">found him. check the projects below 👇</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="section-head">
+      <p class="eyebrow">// stack</p>
+      <h2 class="h2">What I actually build with</h2>
+      <p class="section-desc">Every project below runs on this — nothing here is a "learning it next" line.</p>
+    </div>
 
-    <section id="about" class="section">
-      <h2 class="section-label">// about</h2>
-      <p class="about-text">Software Engineering student with a habit of shipping real, working software instead of tutorials-followed-along. Every project below is deployed, source-available, or both — built to be opened and used, not just described. I care about the parts junior developers tend to skip: sanitizing inputs, rate-limiting APIs, and writing TypeScript interfaces that make the next person's life easier — even when that person is me, six months later.</p>
-    </section>
-
-    <section id="stack" class="section">
-      <h2 class="section-label">// stack</h2>
-      <div class="stack-grid">
-        <div class="stack-group">
-          <h3>Backend &amp; Runtime</h3>
-          <div class="chips">
-            <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">REST APIs</span>
-            <span class="chip">JWT Auth</span><span class="chip">Socket.io</span><span class="chip">Rate Limiting</span>
-            <span class="chip">Helmet.js</span><span class="chip">Mongoose</span>
-          </div>
-        </div>
-        <div class="stack-group">
-          <h3>Frontend</h3>
-          <div class="chips">
-            <span class="chip">React.js</span><span class="chip">TypeScript</span><span class="chip">JavaScript (ES6+)</span>
-            <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Tailwind CSS</span>
-            <span class="chip">Custom Hooks</span>
-          </div>
-        </div>
-        <div class="stack-group">
-          <h3>Databases</h3>
-          <div class="chips">
-            <span class="chip">MongoDB</span><span class="chip">MySQL</span><span class="chip">PostgreSQL</span>
-          </div>
-        </div>
-        <div class="stack-group">
-          <h3>Tools &amp; Other</h3>
-          <div class="chips">
-            <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Postman</span>
-            <span class="chip">Vercel</span><span class="chip">Java</span><span class="chip">AI Integration</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section">
-      <h2 class="section-label">// projects</h2>
-      <div class="project-list">
-
-        <article class="project-card">
-          <div class="project-top">
-            <span class="status-tag source">Source</span>
-            <h3>SimpleChat</h3>
-          </div>
-          <p class="desc">A real-time chat application built on the MERN stack — no polling, no lag, just WebSockets doing their job.</p>
-          <ul>
-            <li>Architected bidirectional real-time messaging with Socket.io, including room-based communication</li>
-            <li>Migrated the full codebase from JavaScript to TypeScript — typed Express routes, Mongoose models, and Socket.io events</li>
-            <li>Hardened the backend with Helmet.js, express-rate-limit, and mongo-sanitize to close off common attack vectors</li>
-            <li>Built multimedia file-sharing with Multer, restricted by file type and size</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">MongoDB</span><span class="chip">Express.js</span><span class="chip">React</span>
-            <span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">Socket.io</span><span class="chip">Helmet.js</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/saad12345-alt/SimpleChat" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-              GitHub
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-top">
-            <span class="status-tag source">Source</span>
-            <h3>ClayMold</h3>
-          </div>
-          <p class="desc">A full-stack e-commerce platform with its own admin dashboard — inventory, orders, and role-based access baked in.</p>
-          <ul>
-            <li>Built product listings, cart, and order management alongside an admin dashboard with role-based access control</li>
-            <li>Sanitized every user input against NoSQL injection with express-mongo-sanitize</li>
-            <li>Added debounced search and price-range sorting, with a persistent cart via LocalStorage — products load in under 500ms</li>
-            <li>Wrote custom React hooks to keep business logic out of components</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">MongoDB</span><span class="chip">Express.js</span><span class="chip">React</span>
-            <span class="chip">Node.js</span><span class="chip">REST API</span><span class="chip">LocalStorage</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/saad12345-alt/ClayMold" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-              GitHub
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-top">
-            <span class="status-tag live">Live</span>
-            <h3>LuminaBooks</h3>
-          </div>
-          <p class="desc">A book discovery app on top of the Open Library API — search, browse, and save, with a live public deployment.</p>
-          <ul>
-            <li>Integrated the Open Library public API for real-world third-party data and async handling</li>
-            <li>Added skeleton loading cards with shimmer animations to smooth out pagination</li>
-            <li>Deployed live on Vercel — open, working, and ready for a recruiter to click through</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">React</span><span class="chip">Open Library API</span><span class="chip">REST</span><span class="chip">CSS3</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/saad12345-alt/LuminoBook" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-              GitHub
-            </a>
-            <a href="https://luminabooks-three.vercel.app" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-              Live site
-            </a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <section id="education" class="section">
-      <h2 class="section-label">// education</h2>
-      <div class="edu-list">
-        <div class="edu-item">
-          <h3>Bachelor of Science, Software Engineering</h3>
-          <p>NFC-IET, Multan, Pakistan · 2023–2027 (Expected) · GPA 3.4/4.0</p>
-        </div>
-        <div class="edu-item">
-          <h3>High School Diploma — Science</h3>
-          <p>International School of Choueifat, Abu Dhabi, UAE · 2023</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section contact-section">
-      <h2 class="section-label">// contact</h2>
-      <h2>Let's build something.</h2>
-      <p>Open to internship and junior developer roles across Pakistan and the UAE.</p>
-      <div class="contact-links">
-        <a class="contact-link" href="mailto:saadniazi70@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          <span><span class="label">Email</span>saadniazi70@gmail.com</span>
-        </a>
-        <a class="contact-link" href="https://wa.me/923071549440" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          <span><span class="label">WhatsApp</span>+92 307 1549440</span>
-        </a>
-        <a class="contact-link" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-          <span><span class="label">GitHub</span>saad12345-alt</span>
-        </a>
-        <a class="contact-link" href="https://linkedin.com/in/saad-khan-5813a83a2" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-          <span><span class="label">LinkedIn</span>saad-khan</span>
-        </a>
-      </div>
-    </section>
+    <div class="stackfile">
+      <div class="stackfile-bar">stack.json</div>
+      <div class="stackfile-body" id="stackBody"></div>
+    </div>
   </div>
-</main>
+</section>
 
-<footer class="footer">© 2026 Saad Ahmad Khan</footer>
+<section id="projects" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">// projects</p>
+      <h2 class="h2">Take the scenic route</h2>
+      <p class="section-desc">Drag over the scene to look around, click a marker to drive there and read the write-up — or just browse the cards below.</p>
+    </div>
+
+    <div class="road-wrap">
+      <div class="road-canvas-holder" id="roadHolder">
+        <canvas id="roadCanvas"></canvas>
+        <div id="markerLayer"></div>
+        <div class="road-fallback" id="roadFallback">3D scene couldn't load in this browser — the project cards below still work fine.</div>
+      </div>
+      <div class="road-hint">◔ drag to look around · click a marker</div>
+    </div>
+
+    <p class="projects-sub">// or browse directly</p>
+    <div class="project-grid" id="projectGrid"></div>
+  </div>
+</section>
+
+<!-- Project Details Drawer -->
+<div class="drawer-backdrop" id="detailBackdrop"></div>
+<aside class="drawer-panel detail-panel" id="detailPanel">
+  <button class="drawer-close" id="detailClose" aria-label="Close">✕</button>
+  <div class="detail-art-shell"><div class="detail-art" id="detailArt"></div></div>
+  <h3 class="detail-name" id="detailName"></h3>
+  <p class="detail-tag" id="detailTag"></p>
+  <p class="detail-sub">// highlights</p>
+  <ul class="detail-bullets" id="detailBullets"></ul>
+  <p class="detail-sub">// stack</p>
+  <div class="detail-chips" id="detailChips"></div>
+  <div class="detail-links" id="detailLinks"></div>
+</aside>
+
+<!-- Full Resume Drawer -->
+<div class="drawer-backdrop" id="resumeBackdrop"></div>
+<aside class="drawer-panel resume-panel" id="resumePanel">
+  <button class="drawer-close" id="resumeClose" aria-label="Close">✕</button>
+  <div class="resume-content">
+    <h2>Saad Ahmad Khan</h2>
+    <p>Full-Stack Developer | MERN Stack Specialist<br>
+    saadniazi70@gmail.com | Abu Dhabi, UAE | GitHub: saad12345-alt | LinkedIn: saad-khan-5813a832a2 | WhatsApp: +971 50 4586 271<br>
+    ✔ UAE Resident (Dependent Visa) — Available to Work Immediately — No Sponsorship Required</p>
+
+    <h3>PROFESSIONAL SUMMARY</h3>
+    <p>Abu Dhabi-based Full-Stack Developer and Computer Science student (GPA 3.4/4.0) with proven experience delivering secure, production-quality MERN stack applications. Schooled at the International School of Choueifat, Abu Dhabi — deeply familiar with UAE work culture and environment. Demonstrates security-first engineering through rate limiting, NoSQL injection prevention, and HTTP hardening. Seeking internship or junior developer roles in the UAE where I can contribute from day one.</p>
+
+    <h3>EDUCATION</h3>
+    <p><b>Bachelor of Science in Software Engineering | GPA: 3.4 / 4.0</b><br>
+    NFC-IET, Multan, Pakistan | 2023 – 2027 (Expected)</p>
+    <p><b>High School Diploma — Science</b><br>
+    International School of Choueifat, Abu Dhabi, UAE | 2023</p>
+
+    <h3>EXPERIENCE</h3>
+    <p><b>Web Developer Intern</b><br>
+    July – September 2026</p>
+    <ul>
+      <li>Contributed to full-stack web development tasks, optimizing responsiveness and scalability across multiple viewport configurations.</li>
+    </ul>
+
+    <p><b>University Project Developer | NFC-IET, Multan</b><br>
+    SimpleChat — Real-Time Chat Application | 2024</p>
+    <ul>
+      <li>Engineered a full-stack real-time chat application using Socket.io and the MERN stack, enabling instantaneous message broadcasting and room-based communication</li>
+      <li>Implemented a multimedia file-sharing system using Multer to handle multi-part form data, restricting uploads to specific file types (Images, PDFs, Docs) and enforcing strict file size limits</li>
+      <li>Hardened backend security by applying Helmet.js for HTTP header configuration, express-rate-limit to prevent API abuse, and mongo-sanitize to eliminate NoSQL injection vectors from user inputs</li>
+      <li>Built a persistent data pipeline with Mongoose to automatically archive chat histories and fetch message timelines when a user enters a room</li>
+    </ul>
+
+    <h3>PROJECTS</h3>
+    <p><b>SimpleChat — Real-Time Chat Application</b><br>
+    <span style="font-size: 12.5px;">MongoDB • Express.js • React • Node.js • TypeScript • Socket.io • Helmet.js | GitHub: github.com/saad12345-alt/SimpleChat</span></p>
+    <ul>
+      <li>Architected a full-stack real-time chat system with WebSocket (Socket.io) for instant bidirectional messaging — no polling, no lag</li>
+      <li>Migrated codebase from JavaScript to TypeScript, introducing typed interfaces for Express routes, Mongoose models, and Socket.io events — demonstrating production-level code discipline</li>
+      <li>Delivered as a graded university software engineering project, meeting real deadlines and technical specifications</li>
+    </ul>
+
+    <p><b>ClayMold — E-Commerce Platform with Admin Dashboard</b><br>
+    <span style="font-size: 12.5px;">MongoDB • Express.js • React • Node.js • REST API • LocalStorage | GitHub: github.com/saad12345-alt/ClayMold</span></p>
+    <ul>
+      <li>Built a full-stack e-commerce platform with product listings, shopping cart, order management, and a dedicated Admin Dashboard for managing inventory and orders</li>
+      <li>Admin Dashboard includes role-based access control — admin users can add, edit, and delete products and view all orders, while regular users see only the storefront</li>
+      <li>Applied express-mongo-sanitize to protect against NoSQL injection attacks, ensuring user-submitted data is sanitized before reaching the database</li>
+      <li>Implemented debounced search, price-range sorting, and persistent cart via LocalStorage — products load in under 500ms for a smooth user experience</li>
+      <li>Wrote custom React hooks to separate business logic from UI, keeping components clean and reusable — a pattern used in professional React codebases</li>
+    </ul>
+
+    <p><b>LuminaBooks — Book Discovery App</b><br>
+    <span style="font-size: 12.5px;">React • Open Library API • REST • CSS3 | GitHub: github.com/saad12345-alt/LuminoBook | Live: luminabooks-three.vercel.app</span></p>
+    <ul>
+      <li>Integrated the Open Library public API to let users search, browse, and save books — demonstrates real-world third-party API consumption and async data handling</li>
+      <li>Implemented skeleton loading cards with shimmer animations for smooth pagination UX, showing awareness of perceived performance — a detail most junior developers overlook</li>
+      <li>Deployed live on Vercel — a working, publicly accessible product a recruiter can open and use right now</li>
+    </ul>
+
+    <h3>TECHNICAL SKILLS</h3>
+    <p><b>Backend & Runtime:</b> Node.js, Express.js, REST APIs, JWT Authentication, Socket.io, Rate Limiting, Helmet.js, Mongoose<br>
+    <b>Frontend:</b> React.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Custom Hooks<br>
+    <b>Databases:</b> MongoDB, MySQL, PostgreSQL<br>
+    <b>Tools & Other:</b> Git, GitHub, Postman, Vercel, Java</p>
+
+    <h3>LANGUAGES</h3>
+    <p>English (Fluent) | Urdu (Native) | Arabic (Basic — studied in UAE)</p>
+  </div>
+</aside>
+
+<section id="timeline" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">// timeline</p>
+      <h2 class="h2">Education &amp; experience</h2>
+    </div>
+    <div class="tline-cols">
+      <div>
+        <div class="tline-col-head">
+          <div class="tline-col-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 6V4h8v2"/><path d="M3 11h18"/></svg></div>
+          <span class="tline-col-title">Experience</span>
+        </div>
+        <div class="tline" id="expList"></div>
+      </div>
+      <div>
+        <div class="tline-col-head edu">
+          <div class="tline-col-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-5 9 5-9 5-9-5Z"/><path d="M7 12.5V17c0 1.4 2.4 3 5 3s5-1.6 5-3v-4.5"/></svg></div>
+          <span class="tline-col-title">Education</span>
+        </div>
+        <div class="tline edu" id="eduList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">// contact</p>
+      <h2 class="h2">Let's build something.</h2>
+      <p class="section-desc">Open to internship and junior developer roles across Pakistan and the UAE.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="ccard-shell"><a class="ccard" href="mailto:saadniazi70@gmail.com">
+        <div class="ccard-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+        <div><div class="ccard-label">EMAIL</div><div class="ccard-value">saadniazi70@gmail.com</div></div>
+      </a></div>
+      <div class="ccard-shell"><a class="ccard" href="https://wa.me/923071549440" target="_blank" rel="noopener">
+        <div class="ccard-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c.3 2.4 2.6 4.7 5 5"/></svg></div>
+        <div><div class="ccard-label">WHATSAPP</div><div class="ccard-value">+971 50 4586 271</div></div>
+      </a></div>
+      <div class="ccard-shell"><a class="ccard" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">
+        <div class="ccard-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 18L4 12l4-6M16 6l4 6-4 6"/></svg></div>
+        <div><div class="ccard-label">GITHUB</div><div class="ccard-value">saad12345-alt</div></div>
+      </a></div>
+      <div class="ccard-shell"><a class="ccard" href="https://www.linkedin.com/in/saad-khan-5813a83a2" target="_blank" rel="noopener">
+        <div class="ccard-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5v6M8 7.8v.01M12.5 16.5v-3.5c0-1.3 1-2.2 2.2-2 1 .1 1.8 1 1.8 2v3.5"/></svg></div>
+        <div><div class="ccard-label">LINKEDIN</div><div class="ccard-value">saad-khan</div></div>
+      </a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Saad Ahmad Khan</span>
+    <span>built with Three.js, coffee, and a habit of finishing things</span>
+  </div>
+</footer>
 
 <script>
-(function(){
-  var root = document.documentElement;
-  var toggle = document.getElementById('themeToggle');
-  var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+/* ===================== Theme Toggle Logic ===================== */
+const themeBtn = document.getElementById("themeToggle");
+themeBtn.addEventListener("click", () => {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const nextTheme = currentTheme === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", nextTheme);
+  localStorage.setItem("theme", nextTheme);
+});
 
-  function apply(t){
-    root.setAttribute('data-theme', t);
-    toggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+/* ===================== data ===================== */
+const STACK = {
+  backend: ["Node.js","Express.js","REST APIs","JWT Auth","Socket.io","Rate Limiting","Helmet.js","Mongoose"],
+  frontend: ["React.js","TypeScript","JavaScript (ES6+)","HTML5","CSS3","Tailwind CSS","Custom Hooks"],
+  databases: ["MongoDB","MySQL","PostgreSQL"],
+  tools: ["Git","GitHub","Postman","Vercel","Java","AI Integration"]
+};
+
+const PROJECTS = [
+  {
+    id:"simplechat", name:"SimpleChat", t:0.06,
+    tagline:"A real-time chat application built on the MERN stack — no polling, no lag, just WebSockets doing their job.",
+    stack:["MongoDB","Express.js","React","Node.js","TypeScript","Socket.io","Helmet.js"],
+    bullets:[
+      "Architected bidirectional real-time messaging with Socket.io, including room-based communication",
+      "Migrated the full codebase from JavaScript to TypeScript — typed Express routes, Mongoose models, and Socket.io events",
+      "Hardened the backend with Helmet.js, express-rate-limit, and mongo-sanitize to close off common attack vectors",
+      "Built multimedia file-sharing with Multer, restricted by file type and size"
+    ],
+    art:"chat"
+  },
+  {
+    id:"claymold", name:"ClayMold", t:0.40,
+    tagline:"A full-stack e-commerce platform with its own admin dashboard — inventory, orders, and role-based access baked in.",
+    stack:["MongoDB","Express.js","React","Node.js","REST API","LocalStorage"],
+    bullets:[
+      "Built product listings, cart, and order management alongside an admin dashboard with role-based access control",
+      "Sanitized every user input against NoSQL injection with express-mongo-sanitize",
+      "Added debounced search and price-range sorting, with a persistent cart via LocalStorage — products load in under 500ms",
+      "Wrote custom React hooks to keep business logic out of components"
+    ],
+    art:"shop"
+  },
+  {
+    id:"luminabooks", name:"LuminaBooks", t:0.73,
+    tagline:"A book discovery app on top of the Open Library API — search, browse, and save, with a live public deployment.",
+    stack:["React","Open Library API","REST","CSS3"],
+    bullets:[
+      "Integrated the Open Library public API for real-world third-party data and async handling",
+      "Added skeleton loading cards with shimmer animations to smooth out pagination",
+      "Deployed live on Vercel — open, working, and ready for a recruiter to click through"
+    ],
+    art:"book"
   }
-  apply(theme);
+];
 
-  toggle.addEventListener('click', function(){
-    theme = theme === 'dark' ? 'light' : 'dark';
-    apply(theme);
+const EXPERIENCE = [
+  {
+    date:"July - September 2026", on:true,
+    title:"Web Developer Intern", org:"—",
+    desc:"Contributed to full-stack web development tasks, optimizing responsive layouts and application scalability."
+  },
+  {
+    date:"2024", on:false,
+    title:"University Project Developer", org:"NFC-IET, Multan",
+    desc:"Engineered SimpleChat, a real-time full-stack chat application utilizing WebSockets and advanced multimedia file-sharing features."
+  }
+];
+
+const EDUCATION = [
+  {
+    date:"2023 – 2027", on:true,
+    title:"Bachelor of Science, Software Engineering", org:"NFC-IET, Multan, Pakistan",
+    desc:"Expected 2027 · GPA 3.4 / 4.0"
+  },
+  {
+    date:"2023", on:false,
+    title:"High School Diploma — Science", org:"International School of Choueifat, Abu Dhabi, UAE",
+    desc:""
+  }
+];
+
+/* ===================== nav tabs / scroll spy ===================== */
+const tabs = [...document.querySelectorAll(".tab")];
+const sections = tabs.map(t => document.getElementById(t.dataset.target));
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id;
+      tabs.forEach(t=> t.classList.toggle("active", t.dataset.target===id));
+    }
   });
+},{rootMargin:"-40% 0px -50% 0px", threshold:0});
+sections.forEach(s=> s && io.observe(s));
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ===================== card flip ===================== */
+const cardInner = document.getElementById("cardInner");
 
-  // Hero chat mock sequence
-  var chatMock = document.getElementById('chatMock');
-  var b1 = document.getElementById('bubble1');
-  var b2 = document.getElementById('bubble2');
-  if(reduceMotion){
-    chatMock.classList.add('is-visible');
-    b1.classList.add('is-visible');
-    b2.classList.add('is-visible');
-  } else {
-    setTimeout(function(){ chatMock.classList.add('is-visible'); }, 200);
-    setTimeout(function(){ b1.classList.add('is-visible'); }, 700);
-    setTimeout(function(){ b2.classList.add('is-visible'); }, 1500);
+document.getElementById("cardFrontTrigger").addEventListener("click", ()=> cardInner.classList.add("flipped"));
+
+// Flip back when clicking anywhere on the back face
+document.getElementById("cardBackTrigger").addEventListener("click", ()=> {
+  cardInner.classList.remove("flipped");
+});
+
+// Prevent the flip back when explicitly clicking the view resume button
+document.getElementById("viewResumeBtn").addEventListener("click", (e)=> {
+  e.stopPropagation(); 
+  openResume(e);
+});
+
+/* ===================== terminal typewriter ===================== */
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const LINES = [
+  {cls:"cmd", text:"$ whoami"},
+  {cls:"out", text:"Saad Ahmad Khan — Full-Stack Developer (MERN)"},
+  {cls:"", text:""},
+  {cls:"cmd", text:"$ cat status.txt"},
+  {cls:"out", text:"Software Engineering student @ NFC-IET · Multan, PK"},
+  {cls:"out", text:"Looking for: first internship / junior role (UAE & PK)"},
+  {cls:"", text:""},
+  {cls:"cmd", text:"$ ./find_dev.sh --role intern"},
+  {cls:"dim", text:"> executing query..."},
+  {cls:"dim", text:"> found candidate. check the projects below ↓"}
+];
+const termBody = document.getElementById("termBody");
+function typeLines(){
+  if(reduced){
+    termBody.innerHTML = LINES.map(l=>`<p class="l ${l.cls}">${l.text||"&nbsp;"}</p>`).join("");
+    return;
+  }
+  let li=0, ci=0;
+  const cursor = document.createElement("span");
+  cursor.className="caret";
+  function step(){
+    if(li>=LINES.length){
+      const last = termBody.lastElementChild;
+      if(last) last.appendChild(cursor);
+      return;
+    }
+    const line = LINES[li];
+    let p = termBody.children[li];
+    if(!p){ p=document.createElement("p"); p.className="l "+line.cls; termBody.appendChild(p); }
+    if(ci<=line.text.length){
+      p.textContent = line.text.slice(0,ci);
+      p.appendChild(cursor);
+      ci++;
+      setTimeout(step, line.text ? (14+Math.random()*22) : 0);
+    } else {
+      ci=0; li++;
+      setTimeout(step, 90);
+    }
+  }
+  step();
+}
+typeLines();
+
+/* ===================== stack.json render ===================== */
+const stackBody = document.getElementById("stackBody");
+function chipsRow(arr, muted){
+  return `<div class="sf-chips">${arr.map(s=>`<span class="chip${muted?" mut":""}">${s}</span>`).join("")}</div>`;
+}
+stackBody.innerHTML = `
+<p class="sf-line">{</p>
+<p class="sf-line">&nbsp;&nbsp;<span class="sf-key">"backend_runtime"</span>:</p>
+${chipsRow(STACK.backend)}
+<p class="sf-line">&nbsp;&nbsp;<span class="sf-key">"frontend"</span>:</p>
+${chipsRow(STACK.frontend)}
+<p class="sf-line">&nbsp;&nbsp;<span class="sf-key">"databases"</span>:</p>
+${chipsRow(STACK.databases)}
+<p class="sf-line">&nbsp;&nbsp;<span class="sf-key">"tools_other"</span>:</p>
+${chipsRow(STACK.tools, true)}
+<p class="sf-line">}</p>
+`;
+
+/* ===================== timelines render ===================== */
+function renderTimeline(el, items, kindClass){
+  el.innerHTML = items.map(item=>`
+    <div class="tline-item ${kindClass}">
+      <div class="tline-rail">
+        <div class="tline-date">${item.date}</div>
+        <div class="tline-dot${item.on?" on":""}"></div>
+      </div>
+      <div class="tline-card">
+        <div class="tline-date-m">${item.date}</div>
+        <h3 class="tline-title">${item.title}</h3>
+        <p class="tline-org">${item.org}</p>
+        ${item.desc?`<p class="tline-desc">${item.desc}</p>`:""}
+      </div>
+    </div>
+  `).join("");
+}
+renderTimeline(document.getElementById("expList"), EXPERIENCE, "");
+renderTimeline(document.getElementById("eduList"), EDUCATION, "edu");
+
+/* ===================== project illustrations ===================== */
+function artSVG(key){
+  const accent = "#777", dim = "rgba(127,127,127,0.1)";
+  if(key==="chat"){
+    return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="42" y="48" width="220" height="112" rx="18" fill="transparent" stroke="${accent}" stroke-width="2"/>
+      <circle cx="70" cy="76" r="10" fill="${accent}"/>
+      <rect x="90" y="70" width="150" height="10" rx="5" fill="${dim}"/>
+      <rect x="62" y="96" width="140" height="10" rx="5" fill="${dim}"/>
+      <rect x="62" y="116" width="100" height="10" rx="5" fill="${dim}"/>
+      <rect x="182" y="112" width="216" height="98" rx="18" fill="transparent" stroke="${accent}" stroke-width="2"/>
+      <circle cx="216" cy="152" r="6" fill="${accent}"/>
+      <circle cx="236" cy="152" r="6" fill="${accent}"/>
+      <circle cx="256" cy="152" r="6" fill="${accent}"/>
+    </svg>`;
+  }
+  if(key==="shop"){
+    return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="34" y="32" width="372" height="26" rx="6" fill="${dim}"/>
+      <circle cx="52" cy="45" r="4" fill="${accent}"/>
+      <rect x="34" y="70" width="110" height="150" rx="10" fill="transparent" stroke="${accent}"/>
+      <rect x="164" y="70" width="110" height="150" rx="10" fill="transparent" stroke="${accent}"/>
+      <rect x="294" y="70" width="112" height="150" rx="10" fill="transparent" stroke="${accent}"/>
+      <rect x="50" y="86" width="78" height="60" rx="6" fill="${dim}"/>
+      <rect x="180" y="86" width="78" height="60" rx="6" fill="${dim}"/>
+      <rect x="310" y="86" width="78" height="60" rx="6" fill="${dim}"/>
+    </svg>`;
+  }
+  return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+    <path d="M220 60 v150" stroke="${accent}" stroke-width="2"/>
+    <path d="M220 60 C160 46 90 52 60 68 v150 c30 -16 100 -22 160 -8 z" fill="transparent" stroke="${accent}" stroke-width="2"/>
+    <path d="M220 60 C280 46 350 52 380 68 v150 c-30 -16 -100 -22 -160 -8 z" fill="transparent" stroke="${accent}" stroke-width="2"/>
+    <rect x="80" y="90" width="120" height="8" rx="4" fill="${dim}"/>
+    <rect x="80" y="108" width="100" height="8" rx="4" fill="${dim}"/>
+    <rect x="240" y="90" width="120" height="8" rx="4" fill="${dim}"/>
+    <rect x="240" y="108" width="90" height="8" rx="4" fill="${dim}"/>
+  </svg>`;
+}
+
+/* ===================== project cards ===================== */
+const projectGrid = document.getElementById("projectGrid");
+projectGrid.innerHTML = PROJECTS.map(p=>`
+  <button class="pcard" data-id="${p.id}" type="button">
+    <div class="pcard-art">${artSVG(p.art)}</div>
+    <div class="pcard-body">
+      <div class="pcard-name">${p.name}</div>
+      <p class="pcard-tag">${p.tagline}</p>
+      <div class="pcard-chips">${p.stack.slice(0,3).map(s=>`<span class="chip">${s}</span>`).join("")}</div>
+      <div class="pcard-cta">View details →</div>
+    </div>
+  </button>
+`).join("");
+projectGrid.addEventListener("click", e=>{
+  const btn = e.target.closest(".pcard");
+  if(!btn) return;
+  const p = PROJECTS.find(x=>x.id===btn.dataset.id);
+  if(p) openProject(p);
+});
+
+/* ===================== Drawer Logic ===================== */
+const detailBackdrop = document.getElementById("detailBackdrop");
+const detailPanel = document.getElementById("detailPanel");
+const resumeBackdrop = document.getElementById("resumeBackdrop");
+const resumePanel = document.getElementById("resumePanel");
+
+function openProject(p){
+  document.getElementById("detailArt").innerHTML = artSVG(p.art);
+  document.getElementById("detailName").textContent = p.name;
+  document.getElementById("detailTag").textContent = p.tagline;
+  document.getElementById("detailBullets").innerHTML = p.bullets.map(b=>`<li>${b}</li>`).join("");
+  document.getElementById("detailChips").innerHTML = p.stack.map(s=>`<span class="chip">${s}</span>`).join("");
+  document.getElementById("detailLinks").innerHTML = `<a class="btn btn-solid btn-sm" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">View on GitHub</a>`;
+  detailBackdrop.classList.add("open");
+  detailPanel.classList.add("open");
+}
+
+function openResume(e){
+  e.stopPropagation();
+  resumeBackdrop.classList.add("open");
+  resumePanel.classList.add("open");
+}
+
+function closeDrawers(){
+  detailBackdrop.classList.remove("open");
+  detailPanel.classList.remove("open");
+  resumeBackdrop.classList.remove("open");
+  resumePanel.classList.remove("open");
+}
+
+document.getElementById("detailClose").addEventListener("click", closeDrawers);
+document.getElementById("resumeClose").addEventListener("click", closeDrawers);
+detailBackdrop.addEventListener("click", closeDrawers);
+resumeBackdrop.addEventListener("click", closeDrawers);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeDrawers(); });
+
+/* ===================== three.js road scene ===================== */
+(function(){
+  const holder = document.getElementById("roadHolder");
+  const canvas = document.getElementById("roadCanvas");
+  const markerLayer = document.getElementById("markerLayer");
+  const fallback = document.getElementById("roadFallback");
+
+  if(typeof THREE === "undefined"){
+    fallback.style.display = "flex";
+    return;
   }
 
-  // Scroll-reveal for project cards
-  var cards = document.querySelectorAll('.project-card');
-  if('IntersectionObserver' in window && !reduceMotion){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
+  try{
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const amb = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(amb);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    dir.position.set(6, 10, 4);
+    dir.castShadow = true;
+    dir.shadow.mapSize.set(1024,1024);
+    dir.shadow.camera.left = -16; dir.shadow.camera.right = 16;
+    dir.shadow.camera.top = 16; dir.shadow.camera.bottom = -16;
+    scene.add(dir);
+
+    function gridTexture(){
+      const c = document.createElement("canvas"); c.width=c.height=256;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle="#f4f4f5"; 
+      ctx.fillRect(0,0,256,256);
+      ctx.strokeStyle="rgba(0,0,0,0.05)"; ctx.lineWidth=1;
+      for(let i=0;i<=256;i+=32){ ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,256);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(256,i);ctx.stroke(); }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(10,10);
+      return tex;
+    }
+    
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(60,60),
+      new THREE.MeshStandardMaterial({map:gridTexture(), roughness:1, metalness:0})
+    );
+    ground.rotation.x = -Math.PI/2; ground.position.y = -0.02; ground.receiveShadow = true;
+    scene.add(ground);
+
+    const ctrl = [
+      new THREE.Vector3(-8,0,-2.6),
+      new THREE.Vector3(-3.2,0,-6.2),
+      new THREE.Vector3(3.4,0,-5.2),
+      new THREE.Vector3(8.2,0,-0.8),
+      new THREE.Vector3(6.2,0,4.4),
+      new THREE.Vector3(0,0,6.4),
+      new THREE.Vector3(-6.4,0,4.2),
+      new THREE.Vector3(-9.4,0,0.4)
+    ];
+    const curve = new THREE.CatmullRomCurve3(ctrl, true, "catmullrom", 0.6);
+
+    function roadTexture(){
+      const c = document.createElement("canvas"); c.width=64; c.height=256;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle="#e4e4e7"; ctx.fillRect(0,0,64,256);
+      ctx.fillStyle="rgba(0,0,0,0.2)";
+      for(let y=0;y<256;y+=40){ ctx.fillRect(29,y,6,20); }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.ClampToEdgeWrapping; tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+    const rTex = roadTexture();
+
+    const N = 260, halfW = 1.15;
+    const positions = [], uvs = [], indices = [];
+    const UP = new THREE.Vector3(0,1,0);
+    let arc = 0; let prevP = null;
+    const sampled = [];
+    for(let i=0;i<=N;i++){
+      const t = (i%N)/N;
+      const p = curve.getPointAt(t);
+      if(prevP) arc += p.distanceTo(prevP);
+      prevP = p;
+      sampled.push({p, t, arc});
+    }
+    for(let i=0;i<sampled.length;i++){
+      const {p,t,arc:a} = sampled[i];
+      const tan = curve.getTangentAt(t).normalize();
+      const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
+      const l = p.clone().addScaledVector(right, -halfW);
+      const r = p.clone().addScaledVector(right, halfW);
+      positions.push(l.x,0.015,l.z, r.x,0.015,r.z);
+      const v = a/3;
+      uvs.push(0,v, 1,v);
+    }
+    for(let i=0;i<N;i++){
+      const a=i*2, b=i*2+1, c=(i+1)*2, d=(i+1)*2+1;
+      indices.push(a,c,b, b,c,d);
+    }
+    const roadGeo = new THREE.BufferGeometry();
+    roadGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions,3));
+    roadGeo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs,2));
+    roadGeo.setIndex(indices);
+    roadGeo.computeVertexNormals();
+    const roadMat = new THREE.MeshStandardMaterial({map:rTex, roughness:0.95});
+    const road = new THREE.Mesh(roadGeo, roadMat);
+    road.receiveShadow = true;
+    scene.add(road);
+
+    function makeTree(x,z,scale){
+      const g = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.08,0.5,6), new THREE.MeshStandardMaterial({color:0xaaaaaa, roughness:1}));
+      trunk.position.y = 0.25; trunk.castShadow = true;
+      const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.42,0.9,8), new THREE.MeshStandardMaterial({color:0x444444, roughness:0.9}));
+      leaf.position.y = 0.85; leaf.castShadow = true;
+      g.add(trunk, leaf);
+      g.position.set(x,0,z); g.scale.setScalar(scale||1);
+      scene.add(g);
+    }
+    [[-10.6,-3.2,1],[-4.4,-8.4,.85],[5.6,-7.6,1.1],[10.6,2.4,.9],[2.4,8.4,1],[-9.6,6.2,.85],[9,-2,.8]].forEach(([x,z,s])=>makeTree(x,z,s));
+
+    const serverLights = [];
+    function makeServer(x,z){
+      const g = new THREE.Group();
+      const box = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.7,0.34), new THREE.MeshStandardMaterial({color:0x333333, roughness:0.6, metalness:0.3}));
+      box.position.y=0.35; box.castShadow=true;
+      const led = new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.02), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xffffff, emissiveIntensity:1}));
+      led.position.set(0,0.55,0.175);
+      g.add(box,led);
+      g.position.set(x,0,z);
+      scene.add(g);
+      serverLights.push(led.material);
+    }
+    makeServer(-2.6,1.4); makeServer(4.4,-2.4);
+
+    function makeCar(){
+      const g = new THREE.Group();
+      const bodyMat = new THREE.MeshStandardMaterial({color:0x333333, roughness:0.35, metalness:0.4});
+      const glassMat = new THREE.MeshStandardMaterial({color:0x000000, roughness:0.15, metalness:0.6});
+      const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.62,0.16,0.34), bodyMat);
+      chassis.position.y = 0.2; chassis.castShadow = true;
+      const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.16,0.3), glassMat);
+      cabin.position.set(-0.03,0.36,0); cabin.castShadow = true;
+      const nose = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.12,0.3), bodyMat);
+      nose.position.set(0.33,0.2,0);
+      const headL = new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xffffff, emissiveIntensity:0.8}));
+      headL.position.set(0.38,0.2,0.11);
+      const headR = headL.clone(); headR.position.z = -0.11;
+      g.add(chassis, cabin, nose, headL, headR);
+
+      const wheels = [];
+      const wheelMat = new THREE.MeshStandardMaterial({color:0x111111, roughness:0.8});
+      [[0.2,0.19],[0.2,-0.19],[-0.2,0.19],[-0.2,-0.19]].forEach(([x,z])=>{
+        const w = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.09,14), wheelMat);
+        w.rotation.z = Math.PI/2;
+        w.position.set(x,0.12,z);
+        w.castShadow = true;
+        g.add(w); wheels.push(w);
       });
-    }, { threshold: 0.15 });
-    cards.forEach(function(c){ io.observe(c); });
-  } else {
-    cards.forEach(function(c){ c.classList.add('is-visible'); });
+      return {group:g, wheels};
+    }
+    const car = makeCar();
+    scene.add(car.group);
+
+    let targetT = null;
+
+    const markerAnchors = [];
+    PROJECTS.forEach(p=>{
+      const point = curve.getPointAt(p.t);
+      const tan = curve.getTangentAt(p.t).normalize();
+      const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
+      const base = point.clone().addScaledVector(right, halfW + 0.9);
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.3,8), new THREE.MeshStandardMaterial({color:0xaaaaaa}));
+      pole.position.set(base.x, 0.65, base.z);
+      pole.castShadow = true;
+      const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07,10,10), new THREE.MeshStandardMaterial({color:0x333333, emissive:0x666666, emissiveIntensity:0.9}));
+      dot.position.set(base.x, 1.32, base.z);
+      scene.add(pole, dot);
+      const anchor = new THREE.Vector3(base.x, 1.55, base.z);
+      markerAnchors.push({project:p, anchor});
+    });
+
+    let dragDist = 0;
+    markerAnchors.forEach(m=>{
+      const el = document.createElement("div");
+      el.className = "project-marker";
+      el.innerHTML = `<div class="marker-tag"><div class="marker-name">${m.project.name}</div><div class="marker-sub">${m.project.stack[0]} · click to view</div></div>`;
+      
+      el.addEventListener("click", ()=> {
+        if(dragDist > 5) return;
+        targetT = m.project.t;
+        setTimeout(() => openProject(m.project), 850); 
+      });
+      
+      markerLayer.appendChild(el);
+      m.el = el;
+    });
+
+    let yaw = 0, targetYaw = 0, dragging=false, lastX=0;
+    holder.addEventListener("pointerdown", e=>{ dragging=true; dragDist=0; lastX=e.clientX; });
+    window.addEventListener("pointerup", ()=> dragging=false);
+    window.addEventListener("pointermove", e=>{
+      if(!dragging) return;
+      const dx = e.clientX - lastX; lastX = e.clientX;
+      dragDist += Math.abs(dx);
+      targetYaw -= dx * 0.006;
+    });
+
+    function resize(){
+      const w = holder.clientWidth, h = holder.clientHeight;
+      if(w===0||h===0) return;
+      renderer.setSize(w,h,false);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      camera.aspect = w/h; camera.updateProjectionMatrix();
+    }
+    new ResizeObserver(resize).observe(holder);
+    resize();
+
+    let t = 0;
+    const clock = new THREE.Clock();
+    const v = new THREE.Vector3();
+
+    function animate(){
+      requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.05);
+
+      if (targetT !== null) {
+        let diff = targetT - t;
+        if (diff > 0.5) diff -= 1;
+        if (diff < -0.5) diff += 1;
+        t += diff * 0.06; 
+        if (Math.abs(diff) < 0.005) targetT = null; 
+      } else if (!reduced) {
+        t = (t + dt*0.028) % 1; 
+      }
+      
+      const p = curve.getPointAt(t);
+      const tan = curve.getTangentAt(t).normalize();
+      car.group.position.set(p.x, 0.02, p.z);
+      car.group.rotation.y = Math.atan2(tan.x, tan.z);
+      if(!reduced && (targetT !== null || !reduced)) {
+        car.wheels.forEach(w=> w.rotation.x -= dt*10);
+      }
+
+      serverLights.forEach((m,i)=>{
+        m.emissiveIntensity = 0.5 + Math.sin(performance.now()*0.004 + i*2)*0.5;
+      });
+
+      yaw += (targetYaw - yaw) * 0.08;
+      const radius = 13.5;
+      camera.position.set(Math.sin(yaw)*radius, 8.6, Math.cos(yaw)*radius);
+      camera.lookAt(0,0.4,0);
+
+      renderer.render(scene, camera);
+
+      const w = holder.clientWidth, h = holder.clientHeight;
+      markerAnchors.forEach(m=>{
+        v.copy(m.anchor).project(camera);
+        const visible = v.z < 1;
+        m.el.style.display = visible ? "block" : "none";
+        m.el.style.left = ((v.x*0.5+0.5)*w) + "px";
+        m.el.style.top = ((-v.y*0.5+0.5)*h) + "px";
+      });
+    }
+    animate();
+
+  }catch(err){
+    console.error("Road scene failed:", err);
+    fallback.style.display = "flex";
   }
 })();
+
+const hamburgerToggle = document.getElementById('hamburgerToggle');
+const navTabs = document.getElementById('navTabs');
+
+hamburgerToggle.addEventListener('click', () => {
+  navTabs.classList.toggle('active');
+  hamburgerToggle.textContent = navTabs.classList.contains('active') ? '✕' : '☰';
+});
+
+// Close menu when a tab link is clicked on mobile
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    navTabs.classList.remove('active');
+    hamburgerToggle.textContent = '☰';
+  });
+});
 </script>
 </body>
 </html>
