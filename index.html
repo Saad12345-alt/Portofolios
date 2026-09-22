@@ -777,17 +777,11 @@ const PROJECTS = [
 
 const EXPERIENCE = [
   {
-    date:"July - September 2026", on:true,
-    title:"Web Developer Intern", org:"—",
-    desc:"Contributed to full-stack web development tasks, optimizing responsive layouts and application scalability."
-  },
-  {
-    date:"2024", on:false,
-    title:"University Project Developer", org:"NFC-IET, Multan",
-    desc:"Engineered SimpleChat, a real-time full-stack chat application utilizing WebSockets and advanced multimedia file-sharing features."
+    date:"Jul – Sep · 2 mo", on:true,
+    title:"Web Development Intern", org:"Remote",
+    desc:"Two-month internship focused on building and shipping features with the MERN stack — writing REST endpoints, building React UI, and working inside an existing codebase alongside a small team."
   }
 ];
-
 const EDUCATION = [
   {
     date:"2023 – 2027", on:true,
@@ -816,19 +810,7 @@ sections.forEach(s=> s && io.observe(s));
 
 /* ===================== card flip ===================== */
 const cardInner = document.getElementById("cardInner");
-
-document.getElementById("cardFrontTrigger").addEventListener("click", ()=> cardInner.classList.add("flipped"));
-
-// Flip back when clicking anywhere on the back face
-document.getElementById("cardBackTrigger").addEventListener("click", ()=> {
-  cardInner.classList.remove("flipped");
-});
-
-// Prevent the flip back when explicitly clicking the view resume button
-document.getElementById("viewResumeBtn").addEventListener("click", (e)=> {
-  e.stopPropagation(); 
-  openResume(e);
-});
+cardInner.addEventListener("click", ()=> cardInner.classList.toggle("flipped"));
 
 /* ===================== terminal typewriter ===================== */
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -838,11 +820,12 @@ const LINES = [
   {cls:"", text:""},
   {cls:"cmd", text:"$ cat status.txt"},
   {cls:"out", text:"Software Engineering student @ NFC-IET · Multan, PK"},
-  {cls:"out", text:"Looking for: first internship / junior role (UAE & PK)"},
+  {cls:"out", text:"Looking for: first internship / junior role"},
   {cls:"", text:""},
   {cls:"cmd", text:"$ ./find_dev.sh --role intern"},
-  {cls:"dim", text:"> executing query..."},
-  {cls:"dim", text:"> found candidate. check the projects below ↓"}
+  {cls:"dim", text:"> socket: connected"},
+  {cls:"dim", text:"> any luck finding a dev for the internship?"},
+  {cls:"dim", text:"> found him. check the projects below ↓"}
 ];
 const termBody = document.getElementById("termBody");
 function typeLines(){
@@ -894,7 +877,7 @@ ${chipsRow(STACK.tools, true)}
 <p class="sf-line">}</p>
 `;
 
-/* ===================== timelines render ===================== */
+/* ===================== timelines render (separated) ===================== */
 function renderTimeline(el, items, kindClass){
   el.innerHTML = items.map(item=>`
     <div class="tline-item ${kindClass}">
@@ -914,46 +897,71 @@ function renderTimeline(el, items, kindClass){
 renderTimeline(document.getElementById("expList"), EXPERIENCE, "");
 renderTimeline(document.getElementById("eduList"), EDUCATION, "edu");
 
-/* ===================== project illustrations ===================== */
+/* ===================== project illustrations (hand-drawn svg) ===================== */
 function artSVG(key){
-  const accent = "#777", dim = "rgba(127,127,127,0.1)";
+  const violet="#3b82f6", emerald="#10b981", dim="#1e2128", ink="#f1f5f9";
   if(key==="chat"){
     return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect x="42" y="48" width="220" height="112" rx="18" fill="transparent" stroke="${accent}" stroke-width="2"/>
-      <circle cx="70" cy="76" r="10" fill="${accent}"/>
-      <rect x="90" y="70" width="150" height="10" rx="5" fill="${dim}"/>
-      <rect x="62" y="96" width="140" height="10" rx="5" fill="${dim}"/>
-      <rect x="62" y="116" width="100" height="10" rx="5" fill="${dim}"/>
-      <rect x="182" y="112" width="216" height="98" rx="18" fill="transparent" stroke="${accent}" stroke-width="2"/>
-      <circle cx="216" cy="152" r="6" fill="${accent}"/>
-      <circle cx="236" cy="152" r="6" fill="${accent}"/>
-      <circle cx="256" cy="152" r="6" fill="${accent}"/>
+      <rect width="440" height="260" fill="#16181d"/>
+      <circle cx="80" cy="210" r="110" fill="${violet}" opacity="0.08"/>
+      <circle cx="380" cy="40" r="90" fill="${emerald}" opacity="0.07"/>
+      <rect x="42" y="48" width="220" height="112" rx="18" fill="${dim}" stroke="${violet}" stroke-opacity=".55"/>
+      <circle cx="70" cy="76" r="10" fill="${violet}" opacity=".5"/>
+      <rect x="90" y="70" width="150" height="10" rx="5" fill="#272b34"/>
+      <rect x="62" y="96" width="140" height="10" rx="5" fill="#272b34"/>
+      <rect x="62" y="116" width="100" height="10" rx="5" fill="#272b34"/>
+      <path d="M72 160 l0 20 l24 -20 z" fill="${dim}" stroke="${violet}" stroke-opacity=".55"/>
+      <rect x="182" y="112" width="216" height="98" rx="18" fill="#152823" stroke="${emerald}"/>
+      <circle cx="216" cy="152" r="6" fill="${emerald}"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+      <circle cx="236" cy="152" r="6" fill="${emerald}"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" begin=".2s" repeatCount="indefinite"/></circle>
+      <circle cx="256" cy="152" r="6" fill="${emerald}"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" begin=".4s" repeatCount="indefinite"/></circle>
+      <path d="M368 210 l0 -20 l-24 20 z" fill="#152823" stroke="${emerald}"/>
+      <path d="M338 128 l10 -10 6 6 -4 4z" fill="${emerald}" opacity=".8"/>
     </svg>`;
   }
   if(key==="shop"){
     return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <rect width="440" height="260" fill="#16181d"/>
+      <circle cx="60" cy="30" r="90" fill="${violet}" opacity="0.07"/>
+      <circle cx="400" cy="230" r="100" fill="${emerald}" opacity="0.06"/>
       <rect x="34" y="32" width="372" height="26" rx="6" fill="${dim}"/>
-      <circle cx="52" cy="45" r="4" fill="${accent}"/>
-      <rect x="34" y="70" width="110" height="150" rx="10" fill="transparent" stroke="${accent}"/>
-      <rect x="164" y="70" width="110" height="150" rx="10" fill="transparent" stroke="${accent}"/>
-      <rect x="294" y="70" width="112" height="150" rx="10" fill="transparent" stroke="${accent}"/>
-      <rect x="50" y="86" width="78" height="60" rx="6" fill="${dim}"/>
-      <rect x="180" y="86" width="78" height="60" rx="6" fill="${dim}"/>
-      <rect x="310" y="86" width="78" height="60" rx="6" fill="${dim}"/>
+      <circle cx="52" cy="45" r="4" fill="${violet}"/>
+      <rect x="66" y="41" width="120" height="8" rx="4" fill="#272b34"/>
+      <rect x="34" y="70" width="110" height="150" rx="10" fill="${dim}" stroke="#272b34"/>
+      <rect x="164" y="70" width="110" height="150" rx="10" fill="${dim}" stroke="#272b34"/>
+      <rect x="294" y="70" width="112" height="150" rx="10" fill="${dim}" stroke="#272b34"/>
+      <rect x="50" y="86" width="78" height="60" rx="6" fill="#16181d"/>
+      <rect x="180" y="86" width="78" height="60" rx="6" fill="#16181d"/>
+      <rect x="310" y="86" width="78" height="60" rx="6" fill="#16181d"/>
+      <rect x="50" y="156" width="60" height="8" rx="4" fill="${violet}"/>
+      <rect x="180" y="156" width="60" height="8" rx="4" fill="${violet}"/>
+      <rect x="310" y="156" width="60" height="8" rx="4" fill="${emerald}"/>
+      <rect x="50" y="176" width="40" height="8" rx="4" fill="#272b34"/>
+      <rect x="180" y="176" width="40" height="8" rx="4" fill="#272b34"/>
+      <rect x="310" y="176" width="40" height="8" rx="4" fill="#272b34"/>
+      <path d="M62 198 h58 l-8 14 h-42 z" fill="none" stroke="${violet}" stroke-width="2"/>
+      <circle cx="72" cy="220" r="4" fill="${violet}"/>
+      <circle cx="106" cy="220" r="4" fill="${violet}"/>
     </svg>`;
   }
   return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
-    <path d="M220 60 v150" stroke="${accent}" stroke-width="2"/>
-    <path d="M220 60 C160 46 90 52 60 68 v150 c30 -16 100 -22 160 -8 z" fill="transparent" stroke="${accent}" stroke-width="2"/>
-    <path d="M220 60 C280 46 350 52 380 68 v150 c-30 -16 -100 -22 -160 -8 z" fill="transparent" stroke="${accent}" stroke-width="2"/>
-    <rect x="80" y="90" width="120" height="8" rx="4" fill="${dim}"/>
-    <rect x="80" y="108" width="100" height="8" rx="4" fill="${dim}"/>
-    <rect x="240" y="90" width="120" height="8" rx="4" fill="${dim}"/>
-    <rect x="240" y="108" width="90" height="8" rx="4" fill="${dim}"/>
+    <rect width="440" height="260" fill="#16181d"/>
+    <circle cx="220" cy="30" r="120" fill="${violet}" opacity="0.06"/>
+    <circle cx="60" cy="230" r="90" fill="${emerald}" opacity="0.06"/>
+    <path d="M220 60 v150" stroke="#272b34" stroke-width="2"/>
+    <path d="M220 60 C160 46 90 52 60 68 v150 c30 -16 100 -22 160 -8 z" fill="${dim}" stroke="${violet}" stroke-opacity=".55"/>
+    <path d="M220 60 C280 46 350 52 380 68 v150 c-30 -16 -100 -22 -160 -8 z" fill="${dim}" stroke="${violet}" stroke-opacity=".55"/>
+    <rect x="80" y="90" width="120" height="8" rx="4" fill="#272b34"/>
+    <rect x="80" y="108" width="100" height="8" rx="4" fill="#272b34"/>
+    <rect x="80" y="126" width="110" height="8" rx="4" fill="#272b34"/>
+    <rect x="240" y="90" width="120" height="8" rx="4" fill="#272b34"/>
+    <rect x="240" y="108" width="90" height="8" rx="4" fill="#272b34"/>
+    <rect x="240" y="126" width="100" height="8" rx="4" fill="#272b34"/>
+    <path d="M340 60 l16 -14 v40 l-16 14 z" fill="${emerald}"/>
   </svg>`;
 }
 
-/* ===================== project cards ===================== */
+/* ===================== project cards (guaranteed-working entry point) ===================== */
 const projectGrid = document.getElementById("projectGrid");
 projectGrid.innerHTML = PROJECTS.map(p=>`
   <button class="pcard" data-id="${p.id}" type="button">
@@ -973,11 +981,10 @@ projectGrid.addEventListener("click", e=>{
   if(p) openProject(p);
 });
 
-/* ===================== Drawer Logic ===================== */
+/* ===================== detail panel ===================== */
 const detailBackdrop = document.getElementById("detailBackdrop");
 const detailPanel = document.getElementById("detailPanel");
-const resumeBackdrop = document.getElementById("resumeBackdrop");
-const resumePanel = document.getElementById("resumePanel");
+const detailClose = document.getElementById("detailClose");
 
 function openProject(p){
   document.getElementById("detailArt").innerHTML = artSVG(p.art);
@@ -985,36 +992,34 @@ function openProject(p){
   document.getElementById("detailTag").textContent = p.tagline;
   document.getElementById("detailBullets").innerHTML = p.bullets.map(b=>`<li>${b}</li>`).join("");
   document.getElementById("detailChips").innerHTML = p.stack.map(s=>`<span class="chip">${s}</span>`).join("");
-  document.getElementById("detailLinks").innerHTML = `<a class="btn btn-solid btn-sm" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">View on GitHub</a>`;
+  document.getElementById("detailLinks").innerHTML =
+    `<a class="btn btn-solid btn-sm" href="https://github.com/saad12345-alt" target="_blank" rel="noopener">View on GitHub</a>`;
   detailBackdrop.classList.add("open");
   detailPanel.classList.add("open");
+  
+  if (window.setCarTarget) window.setCarTarget(p.t);
 }
-
-function openResume(e){
-  e.stopPropagation();
-  resumeBackdrop.classList.add("open");
-  resumePanel.classList.add("open");
-}
-
-function closeDrawers(){
+function closeProject(){
   detailBackdrop.classList.remove("open");
   detailPanel.classList.remove("open");
-  resumeBackdrop.classList.remove("open");
-  resumePanel.classList.remove("open");
+  
+  if (window.setCarTarget) window.setCarTarget(null);
 }
+detailClose.addEventListener("click", closeProject);
+detailBackdrop.addEventListener("click", closeProject);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); });
 
-document.getElementById("detailClose").addEventListener("click", closeDrawers);
-document.getElementById("resumeClose").addEventListener("click", closeDrawers);
-detailBackdrop.addEventListener("click", closeDrawers);
-resumeBackdrop.addEventListener("click", closeDrawers);
-document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeDrawers(); });
-
-/* ===================== three.js road scene ===================== */
+/* ===================== three.js road scene (progressive enhancement) ===================== */
 (function(){
   const holder = document.getElementById("roadHolder");
   const canvas = document.getElementById("roadCanvas");
   const markerLayer = document.getElementById("markerLayer");
   const fallback = document.getElementById("roadFallback");
+
+  let carTargetT = null;
+  window.setCarTarget = function(target) {
+    carTargetT = target;
+  };
 
   if(typeof THREE === "undefined"){
     fallback.style.display = "flex";
@@ -1022,280 +1027,385 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeDrawers(); }
   }
 
   try{
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    const amb = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(amb);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-    dir.position.set(6, 10, 4);
-    dir.castShadow = true;
-    dir.shadow.mapSize.set(1024,1024);
-    dir.shadow.camera.left = -16; dir.shadow.camera.right = 16;
-    dir.shadow.camera.top = 16; dir.shadow.camera.bottom = -16;
-    scene.add(dir);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    function gridTexture(){
-      const c = document.createElement("canvas"); c.width=c.height=256;
-      const ctx = c.getContext("2d");
-      ctx.fillStyle="#f4f4f5"; 
-      ctx.fillRect(0,0,256,256);
-      ctx.strokeStyle="rgba(0,0,0,0.05)"; ctx.lineWidth=1;
-      for(let i=0;i<=256;i+=32){ ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,256);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(256,i);ctx.stroke(); }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(10,10);
-      return tex;
+  const amb = new THREE.AmbientLight(0x94a3b8, 0.65);
+  scene.add(amb);
+  const dir = new THREE.DirectionalLight(0xfff0e0, 1.0);
+  dir.position.set(6, 10, 4);
+  dir.castShadow = true;
+  dir.shadow.mapSize.set(1024,1024);
+  dir.shadow.camera.left = -16; dir.shadow.camera.right = 16;
+  dir.shadow.camera.top = 16; dir.shadow.camera.bottom = -16;
+  scene.add(dir);
+  const fill = new THREE.DirectionalLight(0x3b82f6, 0.3);
+  fill.position.set(-6,4,-4);
+  scene.add(fill);
+
+  function grassTexture(){
+    const c = document.createElement("canvas"); c.width=c.height=256;
+    const ctx = c.getContext("2d");
+    ctx.fillStyle="#24382a"; ctx.fillRect(0,0,256,256);
+    for(let i=0;i<1400;i++){
+      const x=Math.random()*256, y=Math.random()*256, r=Math.random()*1.8+0.5;
+      ctx.fillStyle = Math.random()<0.5 ? "rgba(52,84,58,0.55)" : "rgba(18,32,22,0.45)";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
     }
-    
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(60,60),
-      new THREE.MeshStandardMaterial({map:gridTexture(), roughness:1, metalness:0})
-    );
-    ground.rotation.x = -Math.PI/2; ground.position.y = -0.02; ground.receiveShadow = true;
-    scene.add(ground);
-
-    const ctrl = [
-      new THREE.Vector3(-8,0,-2.6),
-      new THREE.Vector3(-3.2,0,-6.2),
-      new THREE.Vector3(3.4,0,-5.2),
-      new THREE.Vector3(8.2,0,-0.8),
-      new THREE.Vector3(6.2,0,4.4),
-      new THREE.Vector3(0,0,6.4),
-      new THREE.Vector3(-6.4,0,4.2),
-      new THREE.Vector3(-9.4,0,0.4)
-    ];
-    const curve = new THREE.CatmullRomCurve3(ctrl, true, "catmullrom", 0.6);
-
-    function roadTexture(){
-      const c = document.createElement("canvas"); c.width=64; c.height=256;
-      const ctx = c.getContext("2d");
-      ctx.fillStyle="#e4e4e7"; ctx.fillRect(0,0,64,256);
-      ctx.fillStyle="rgba(0,0,0,0.2)";
-      for(let y=0;y<256;y+=40){ ctx.fillRect(29,y,6,20); }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = THREE.ClampToEdgeWrapping; tex.wrapT = THREE.RepeatWrapping;
-      return tex;
+    for(let i=0;i<180;i++){
+      const x=Math.random()*256, y=Math.random()*256;
+      ctx.strokeStyle="rgba(90,130,90,0.35)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+ (Math.random()*4-2), y-4-Math.random()*3); ctx.stroke();
     }
-    const rTex = roadTexture();
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(12,12);
+    return tex;
+  }
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(60,60),
+    new THREE.MeshStandardMaterial({map:grassTexture(), roughness:1, metalness:0})
+  );
+  ground.rotation.x = -Math.PI/2; ground.position.y = -0.02; ground.receiveShadow = true;
+  scene.add(ground);
 
-    const N = 260, halfW = 1.15;
-    const positions = [], uvs = [], indices = [];
-    const UP = new THREE.Vector3(0,1,0);
-    let arc = 0; let prevP = null;
-    const sampled = [];
-    for(let i=0;i<=N;i++){
-      const t = (i%N)/N;
-      const p = curve.getPointAt(t);
-      if(prevP) arc += p.distanceTo(prevP);
-      prevP = p;
-      sampled.push({p, t, arc});
-    }
-    for(let i=0;i<sampled.length;i++){
-      const {p,t,arc:a} = sampled[i];
-      const tan = curve.getTangentAt(t).normalize();
-      const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
-      const l = p.clone().addScaledVector(right, -halfW);
-      const r = p.clone().addScaledVector(right, halfW);
-      positions.push(l.x,0.015,l.z, r.x,0.015,r.z);
-      const v = a/3;
-      uvs.push(0,v, 1,v);
-    }
-    for(let i=0;i<N;i++){
-      const a=i*2, b=i*2+1, c=(i+1)*2, d=(i+1)*2+1;
-      indices.push(a,c,b, b,c,d);
-    }
-    const roadGeo = new THREE.BufferGeometry();
-    roadGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions,3));
-    roadGeo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs,2));
-    roadGeo.setIndex(indices);
-    roadGeo.computeVertexNormals();
-    const roadMat = new THREE.MeshStandardMaterial({map:rTex, roughness:0.95});
-    const road = new THREE.Mesh(roadGeo, roadMat);
-    road.receiveShadow = true;
-    scene.add(road);
+  const ctrl = [
+    new THREE.Vector3(-8,0,-2.6),
+    new THREE.Vector3(-3.2,0,-6.2),
+    new THREE.Vector3(3.4,0,-5.2),
+    new THREE.Vector3(8.2,0,-0.8),
+    new THREE.Vector3(6.2,0,4.4),
+    new THREE.Vector3(0,0,6.4),
+    new THREE.Vector3(-6.4,0,4.2),
+    new THREE.Vector3(-9.4,0,0.4)
+  ];
+  const curve = new THREE.CatmullRomCurve3(ctrl, true, "catmullrom", 0.6);
 
-    function makeTree(x,z,scale){
-      const g = new THREE.Group();
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.08,0.5,6), new THREE.MeshStandardMaterial({color:0xaaaaaa, roughness:1}));
-      trunk.position.y = 0.25; trunk.castShadow = true;
-      const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.42,0.9,8), new THREE.MeshStandardMaterial({color:0x444444, roughness:0.9}));
-      leaf.position.y = 0.85; leaf.castShadow = true;
-      g.add(trunk, leaf);
-      g.position.set(x,0,z); g.scale.setScalar(scale||1);
-      scene.add(g);
+  function roadTexture(){
+    const c = document.createElement("canvas"); c.width=64; c.height=256;
+    const ctx = c.getContext("2d");
+    ctx.fillStyle="#6b5438"; ctx.fillRect(0,0,64,256);
+    for(let i=0;i<420;i++){
+      const x=Math.random()*64, y=Math.random()*256, r=Math.random()*1.5+0.4;
+      ctx.fillStyle = Math.random()<0.5 ? "rgba(94,74,48,0.5)" : "rgba(46,34,20,0.45)";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
     }
-    [[-10.6,-3.2,1],[-4.4,-8.4,.85],[5.6,-7.6,1.1],[10.6,2.4,.9],[2.4,8.4,1],[-9.6,6.2,.85],[9,-2,.8]].forEach(([x,z,s])=>makeTree(x,z,s));
+    ctx.strokeStyle="rgba(38,28,16,0.55)"; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(2,0); ctx.lineTo(2,256); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(62,0); ctx.lineTo(62,256); ctx.stroke();
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = THREE.ClampToEdgeWrapping; tex.wrapT = THREE.RepeatWrapping;
+    return tex;
+  }
+  const rTex = roadTexture();
 
-    const serverLights = [];
-    function makeServer(x,z){
-      const g = new THREE.Group();
-      const box = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.7,0.34), new THREE.MeshStandardMaterial({color:0x333333, roughness:0.6, metalness:0.3}));
-      box.position.y=0.35; box.castShadow=true;
-      const led = new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.02), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xffffff, emissiveIntensity:1}));
-      led.position.set(0,0.55,0.175);
-      g.add(box,led);
-      g.position.set(x,0,z);
-      scene.add(g);
-      serverLights.push(led.material);
+  const N = 260, halfW = 1.15;
+  const positions = [], uvs = [], indices = [];
+  const UP = new THREE.Vector3(0,1,0);
+  let arc = 0; let prevP = null;
+  const sampled = [];
+  for(let i=0;i<=N;i++){
+    const t = (i%N)/N;
+    const p = curve.getPointAt(t);
+    if(prevP) arc += p.distanceTo(prevP);
+    prevP = p;
+    sampled.push({p, t, arc});
+  }
+  for(let i=0;i<sampled.length;i++){
+    const {p,t,arc:a} = sampled[i];
+    const tan = curve.getTangentAt(t).normalize();
+    const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
+    const l = p.clone().addScaledVector(right, -halfW);
+    const r = p.clone().addScaledVector(right, halfW);
+    positions.push(l.x,0.015,l.z, r.x,0.015,r.z);
+    const v = a/3;
+    uvs.push(0,v, 1,v);
+  }
+  for(let i=0;i<N;i++){
+    const a=i*2, b=i*2+1, c=(i+1)*2, d=(i+1)*2+1;
+    indices.push(a,c,b, b,c,d);
+  }
+  const roadGeo = new THREE.BufferGeometry();
+  roadGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions,3));
+  roadGeo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs,2));
+  roadGeo.setIndex(indices);
+  roadGeo.computeVertexNormals();
+  const roadMat = new THREE.MeshStandardMaterial({map:rTex, roughness:0.95});
+  const road = new THREE.Mesh(roadGeo, roadMat);
+  road.receiveShadow = true;
+  scene.add(road);
+
+  const LEAF_GREENS = [0x2f6b45, 0x27593a, 0x36804f];
+  function makeTree(x,z,scale,tint){
+    const g = new THREE.Group();
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.08,0.5,6), new THREE.MeshStandardMaterial({color:0x4a3624, roughness:1}));
+    trunk.position.y = 0.25; trunk.castShadow = true;
+    const leafColor = LEAF_GREENS[tint%LEAF_GREENS.length];
+    const leaf1 = new THREE.Mesh(new THREE.ConeGeometry(0.4,0.62,8), new THREE.MeshStandardMaterial({color:leafColor, roughness:0.9}));
+    leaf1.position.y = 0.72; leaf1.castShadow = true;
+    const leaf2 = new THREE.Mesh(new THREE.ConeGeometry(0.3,0.5,8), new THREE.MeshStandardMaterial({color:leafColor, roughness:0.9}));
+    leaf2.position.y = 1.02; leaf2.castShadow = true;
+    g.add(trunk, leaf1, leaf2);
+    g.position.set(x,0,z); g.scale.setScalar(scale||1);
+    scene.add(g);
+  }
+  [[-10.6,-3.2,1,0],[-4.4,-8.4,.85,1],[5.6,-7.6,1.1,2],[10.6,2.4,.9,0],[2.4,8.4,1,1],[-9.6,6.2,.85,2],[9,-2,.8,0],[-1.8,-3.4,.7,1],[3.6,3.4,.75,2],[-7.2,-6,.8,0]].forEach(([x,z,s,tint])=>makeTree(x,z,s,tint));
+
+  function makeBush(x,z,scale){
+    const g = new THREE.Group();
+    const col = LEAF_GREENS[Math.floor(Math.random()*LEAF_GREENS.length)];
+    for(let i=0;i<3;i++){
+      const s = new THREE.Mesh(new THREE.SphereGeometry(0.14+Math.random()*0.05,8,8), new THREE.MeshStandardMaterial({color:col, roughness:0.95}));
+      s.position.set((Math.random()-0.5)*0.18, 0.12+Math.random()*0.05, (Math.random()-0.5)*0.18);
+      s.castShadow = true;
+      g.add(s);
     }
-    makeServer(-2.6,1.4); makeServer(4.4,-2.4);
+    g.position.set(x,0,z); g.scale.setScalar(scale||1);
+    scene.add(g);
+  }
+  [[-6.6,-1.4],[1.2,-5.6],[7.4,1.2],[3.8,6.6],[-8.4,3.2],[-2.6,7.4],[6.2,-4.2]].forEach(([x,z])=>makeBush(x,z,1));
 
-    function makeCar(){
-      const g = new THREE.Group();
-      const bodyMat = new THREE.MeshStandardMaterial({color:0x333333, roughness:0.35, metalness:0.4});
-      const glassMat = new THREE.MeshStandardMaterial({color:0x000000, roughness:0.15, metalness:0.6});
-      const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.62,0.16,0.34), bodyMat);
-      chassis.position.y = 0.2; chassis.castShadow = true;
-      const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.16,0.3), glassMat);
-      cabin.position.set(-0.03,0.36,0); cabin.castShadow = true;
-      const nose = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.12,0.3), bodyMat);
-      nose.position.set(0.33,0.2,0);
-      const headL = new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xffffff, emissiveIntensity:0.8}));
-      headL.position.set(0.38,0.2,0.11);
-      const headR = headL.clone(); headR.position.z = -0.11;
-      g.add(chassis, cabin, nose, headL, headR);
+  function makeBin(x,z){
+    const g = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.075,0.22,10), new THREE.MeshStandardMaterial({color:0x2e3b2e, roughness:0.7, metalness:0.15}));
+    body.position.y = 0.11; body.castShadow = true;
+    const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.025,10), new THREE.MeshStandardMaterial({color:0x1f281f, roughness:0.6}));
+    lid.position.y = 0.235; lid.castShadow = true;
+    g.add(body, lid);
+    g.position.set(x,0,z);
+    scene.add(g);
+  }
+  [0.2,0.55,0.88].forEach(bt=>{
+    const bp = curve.getPointAt(bt);
+    const btan = curve.getTangentAt(bt).normalize();
+    const bright = new THREE.Vector3().crossVectors(btan, UP).normalize();
+    const pos = bp.clone().addScaledVector(bright, -(halfW+0.4));
+    makeBin(pos.x,pos.z);
+  });
 
-      const wheels = [];
-      const wheelMat = new THREE.MeshStandardMaterial({color:0x111111, roughness:0.8});
-      [[0.2,0.19],[0.2,-0.19],[-0.2,0.19],[-0.2,-0.19]].forEach(([x,z])=>{
-        const w = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.09,14), wheelMat);
-        w.rotation.z = Math.PI/2;
-        w.position.set(x,0.12,z);
-        w.castShadow = true;
-        g.add(w); wheels.push(w);
+  const serverLights = [];
+  function makeServer(x,z){
+    const g = new THREE.Group();
+    const box = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.7,0.34), new THREE.MeshStandardMaterial({color:0x1e2128, roughness:0.6, metalness:0.3}));
+    box.position.y=0.35; box.castShadow=true;
+    const led = new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.02), new THREE.MeshStandardMaterial({color:0x10b981, emissive:0x10b981, emissiveIntensity:1}));
+    led.position.set(0,0.55,0.175);
+    g.add(box,led);
+    g.position.set(x,0,z);
+    scene.add(g);
+    serverLights.push(led.material);
+  }
+  makeServer(-2.6,1.4); makeServer(4.4,-2.4);
+
+  function makeCarProcedural(){
+    const g = new THREE.Group();
+    const bodyMat = new THREE.MeshStandardMaterial({color:0x3b82f6, roughness:0.35, metalness:0.4});
+    const glassMat = new THREE.MeshStandardMaterial({color:0x0f1115, roughness:0.15, metalness:0.6});
+    const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.62,0.16,0.34), bodyMat);
+    chassis.position.y = 0.2; chassis.castShadow = true;
+    const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.34,0.16,0.3), glassMat);
+    cabin.position.set(-0.03,0.36,0); cabin.castShadow = true;
+    const nose = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.12,0.3), bodyMat);
+    nose.position.set(0.33,0.2,0);
+    const headL = new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8), new THREE.MeshStandardMaterial({color:0xffe9b0, emissive:0xffe9b0, emissiveIntensity:0.8}));
+    headL.position.set(0.38,0.2,0.11);
+    const headR = headL.clone(); headR.position.z = -0.11;
+    g.add(chassis, cabin, nose, headL, headR);
+
+    const wheels = [];
+    const wheelMat = new THREE.MeshStandardMaterial({color:0x16181d, roughness:0.8});
+    [[0.2,0.19],[0.2,-0.19],[-0.2,0.19],[-0.2,-0.19]].forEach(([x,z])=>{
+      const w = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.09,14), wheelMat);
+      w.rotation.z = Math.PI/2;
+      w.position.set(x,0.12,z);
+      w.castShadow = true;
+      g.add(w); wheels.push(w);
+    });
+    return {group:g, wheels};
+  }
+
+  // If the car appears to face the wrong way once loaded, nudge this by
+  // Math.PI/2 or Math.PI increments (it's the yaw applied after loading).
+  const CAR_YAW_OFFSET = 0;
+  const CAR_TARGET_LENGTH = 0.72;
+
+  const car = {group:new THREE.Group(), wheels:[]};
+  scene.add(car.group);
+
+  function useFallbackCar(){
+    const built = makeCarProcedural();
+    car.group.add(built.group);
+    car.wheels = built.wheels;
+  }
+
+  function loadCarModel(){
+    if(typeof CAR_GLB_BASE64 === "undefined" || !CAR_GLB_BASE64 || typeof THREE.GLTFLoader === "undefined"){
+      useFallbackCar();
+      return;
+    }
+    try{
+      const bin = atob(CAR_GLB_BASE64);
+      const buf = new ArrayBuffer(bin.length);
+      const arr = new Uint8Array(buf);
+      for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+      new THREE.GLTFLoader().parse(buf, "", (gltf)=>{
+        const model = gltf.scene || gltf.scenes[0];
+        const box = new THREE.Box3().setFromObject(model);
+        const size = new THREE.Vector3(); box.getSize(size);
+        const maxHorizontal = Math.max(size.x, size.z) || 1;
+        const scale = CAR_TARGET_LENGTH / maxHorizontal;
+        model.scale.setScalar(scale);
+
+        const box2 = new THREE.Box3().setFromObject(model);
+        const center = new THREE.Vector3(); box2.getCenter(center);
+        model.position.x -= center.x;
+        model.position.z -= center.z;
+        model.position.y -= box2.min.y;
+
+        const wheels = [];
+        model.traverse(o=>{
+          if(o.isMesh){ o.castShadow = true; }
+          if(/tire|wheel/i.test(o.name)) wheels.push(o);
+        });
+
+        const wrapper = new THREE.Group();
+        wrapper.rotation.y = CAR_YAW_OFFSET;
+        wrapper.add(model);
+        car.group.add(wrapper);
+        car.wheels = wheels;
+      }, (err)=>{
+        console.error("GLB parse failed, using fallback car:", err);
+        useFallbackCar();
       });
-      return {group:g, wheels};
+    }catch(err){
+      console.error("GLB decode failed, using fallback car:", err);
+      useFallbackCar();
     }
-    const car = makeCar();
-    scene.add(car.group);
+  }
+  loadCarModel();
 
-    let targetT = null;
+  const markerAnchors = [];
+  PROJECTS.forEach(p=>{
+    const point = curve.getPointAt(p.t);
+    const tan = curve.getTangentAt(p.t).normalize();
+    const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
+    const base = point.clone().addScaledVector(right, halfW + 0.9);
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.3,8), new THREE.MeshStandardMaterial({color:0x272b34}));
+    pole.position.set(base.x, 0.65, base.z);
+    pole.castShadow = true;
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07,10,10), new THREE.MeshStandardMaterial({color:0x3b82f6, emissive:0x3b82f6, emissiveIntensity:0.9}));
+    dot.position.set(base.x, 1.32, base.z);
+    scene.add(pole, dot);
+    const anchor = new THREE.Vector3(base.x, 1.55, base.z);
+    markerAnchors.push({project:p, anchor});
+  });
 
-    const markerAnchors = [];
-    PROJECTS.forEach(p=>{
-      const point = curve.getPointAt(p.t);
-      const tan = curve.getTangentAt(p.t).normalize();
-      const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
-      const base = point.clone().addScaledVector(right, halfW + 0.9);
-      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.3,8), new THREE.MeshStandardMaterial({color:0xaaaaaa}));
-      pole.position.set(base.x, 0.65, base.z);
-      pole.castShadow = true;
-      const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07,10,10), new THREE.MeshStandardMaterial({color:0x333333, emissive:0x666666, emissiveIntensity:0.9}));
-      dot.position.set(base.x, 1.32, base.z);
-      scene.add(pole, dot);
-      const anchor = new THREE.Vector3(base.x, 1.55, base.z);
-      markerAnchors.push({project:p, anchor});
-    });
+  markerAnchors.forEach(m=>{
+    const el = document.createElement("div");
+    el.className = "project-marker";
+    el.innerHTML = `<div class="marker-tag"><div class="marker-name">${m.project.name}</div><div class="marker-sub">${m.project.stack[0]} · view details</div></div>`;
+    el.addEventListener("click", ()=> openProject(m.project));
+    markerLayer.appendChild(el);
+    m.el = el;
+  });
 
-    let dragDist = 0;
-    markerAnchors.forEach(m=>{
-      const el = document.createElement("div");
-      el.className = "project-marker";
-      el.innerHTML = `<div class="marker-tag"><div class="marker-name">${m.project.name}</div><div class="marker-sub">${m.project.stack[0]} · click to view</div></div>`;
-      
-      el.addEventListener("click", ()=> {
-        if(dragDist > 5) return;
-        targetT = m.project.t;
-        setTimeout(() => openProject(m.project), 850); 
-      });
-      
-      markerLayer.appendChild(el);
-      m.el = el;
-    });
+  let yaw = 0, targetYaw = 0, dragging=false, lastX=0;
+  holder.addEventListener("pointerdown", e=>{ 
+    // IMPORTANT: Don't set capture if they clicked a marker, so the click event can fire natively!
+    if (e.target.closest('.project-marker')) return;
+    dragging=true; 
+    lastX=e.clientX; 
+    holder.setPointerCapture(e.pointerId); 
+  });
+  holder.addEventListener("pointerup", ()=> dragging=false);
+  holder.addEventListener("pointerleave", ()=> dragging=false);
+  holder.addEventListener("pointermove", e=>{
+    if(!dragging) return;
+    const dx = e.clientX - lastX; lastX = e.clientX;
+    targetYaw -= dx * 0.006;
+  });
 
-    let yaw = 0, targetYaw = 0, dragging=false, lastX=0;
-    holder.addEventListener("pointerdown", e=>{ dragging=true; dragDist=0; lastX=e.clientX; });
-    window.addEventListener("pointerup", ()=> dragging=false);
-    window.addEventListener("pointermove", e=>{
-      if(!dragging) return;
-      const dx = e.clientX - lastX; lastX = e.clientX;
-      dragDist += Math.abs(dx);
-      targetYaw -= dx * 0.006;
-    });
-
-    function resize(){
-      const w = holder.clientWidth, h = holder.clientHeight;
-      if(w===0||h===0) return;
-      renderer.setSize(w,h,false);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-      camera.aspect = w/h; camera.updateProjectionMatrix();
-    }
+  function resize(){
+    const w = holder.clientWidth, h = holder.clientHeight;
+    if(w===0||h===0) return;
+    renderer.setSize(w,h,false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  
+  if (window.ResizeObserver) {
     new ResizeObserver(resize).observe(holder);
-    resize();
+  } else {
+    window.addEventListener("resize", resize);
+  }
+  resize();
 
-    let t = 0;
-    const clock = new THREE.Clock();
-    const v = new THREE.Vector3();
+  let t = 0;
+  const clock = new THREE.Clock();
+  const v = new THREE.Vector3();
 
-    function animate(){
-      requestAnimationFrame(animate);
-      const dt = Math.min(clock.getDelta(), 0.05);
+  function animate(){
+    requestAnimationFrame(animate);
+    const dt = Math.min(clock.getDelta(), 0.05);
 
-      if (targetT !== null) {
-        let diff = targetT - t;
-        if (diff > 0.5) diff -= 1;
-        if (diff < -0.5) diff += 1;
-        t += diff * 0.06; 
-        if (Math.abs(diff) < 0.005) targetT = null; 
-      } else if (!reduced) {
-        t = (t + dt*0.028) % 1; 
+    if(!reduced){
+      if (carTargetT !== null) {
+        // Drive towards carTargetT smoothly
+        let forwardDiff = carTargetT - (t % 1);
+        if (forwardDiff < 0) forwardDiff += 1;
+        
+        if (forwardDiff < 0.01) {
+          t = carTargetT; // We reached the target
+        } else {
+          // Speed up towards the target marker
+          t = (t + dt*0.15) % 1;
+        }
+      } else {
+        // Default cruising speed
+        t = (t + dt*0.028) % 1;
       }
-      
-      const p = curve.getPointAt(t);
-      const tan = curve.getTangentAt(t).normalize();
-      car.group.position.set(p.x, 0.02, p.z);
-      car.group.rotation.y = Math.atan2(tan.x, tan.z);
-      if(!reduced && (targetT !== null || !reduced)) {
-        car.wheels.forEach(w=> w.rotation.x -= dt*10);
-      }
-
-      serverLights.forEach((m,i)=>{
-        m.emissiveIntensity = 0.5 + Math.sin(performance.now()*0.004 + i*2)*0.5;
-      });
-
-      yaw += (targetYaw - yaw) * 0.08;
-      const radius = 13.5;
-      camera.position.set(Math.sin(yaw)*radius, 8.6, Math.cos(yaw)*radius);
-      camera.lookAt(0,0.4,0);
-
-      renderer.render(scene, camera);
-
-      const w = holder.clientWidth, h = holder.clientHeight;
-      markerAnchors.forEach(m=>{
-        v.copy(m.anchor).project(camera);
-        const visible = v.z < 1;
-        m.el.style.display = visible ? "block" : "none";
-        m.el.style.left = ((v.x*0.5+0.5)*w) + "px";
-        m.el.style.top = ((-v.y*0.5+0.5)*h) + "px";
-      });
     }
-    animate();
+    const p = curve.getPointAt(t);
+    const tan = curve.getTangentAt(t).normalize();
+    car.group.position.set(p.x, 0.02, p.z);
+    car.group.rotation.y = Math.atan2(tan.x, tan.z);
+    
+    if(!reduced) {
+      const speed = carTargetT !== null ? dt*15 : dt*10;
+      car.wheels.forEach(w=> w.rotation.x -= speed);
+    }
+
+    serverLights.forEach((m,i)=>{
+      m.emissiveIntensity = 0.5 + Math.sin(performance.now()*0.004 + i*2)*0.5;
+    });
+
+    yaw += (targetYaw - yaw) * 0.08;
+    const radius = 13.5;
+    camera.position.set(Math.sin(yaw)*radius, 8.6, Math.cos(yaw)*radius);
+    camera.lookAt(0,0.4,0);
+
+    renderer.render(scene, camera);
+
+    const w = holder.clientWidth, h = holder.clientHeight;
+    markerAnchors.forEach(m=>{
+      v.copy(m.anchor).project(camera);
+      const visible = v.z < 1;
+      m.el.style.display = visible ? "block" : "none";
+      m.el.style.left = ((v.x*0.5+0.5)*w) + "px";
+      m.el.style.top = ((-v.y*0.5+0.5)*h) + "px";
+    });
+  }
+  animate();
 
   }catch(err){
     console.error("Road scene failed:", err);
+    fallback.innerHTML = "3D scene couldn't load: " + err.message + "<br><br>The project cards below still work fine.";
     fallback.style.display = "flex";
   }
 })();
-
-const hamburgerToggle = document.getElementById('hamburgerToggle');
-const navTabs = document.getElementById('navTabs');
-
-hamburgerToggle.addEventListener('click', () => {
-  navTabs.classList.toggle('active');
-  hamburgerToggle.textContent = navTabs.classList.contains('active') ? '✕' : '☰';
-});
-
-// Close menu when a tab link is clicked on mobile
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    navTabs.classList.remove('active');
-    hamburgerToggle.textContent = '☰';
-  });
-});
 </script>
 </body>
 </html>
