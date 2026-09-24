@@ -250,6 +250,11 @@ img,svg{max-width:100%;display:block;}
   color:var(--text-dim);background:var(--surface);padding:6px 10px;border-radius:7px;
   border:1px solid var(--border);
 }
+.road-controls{
+  position:absolute;right:16px;bottom:14px;z-index:5;font-family:var(--font-m);font-size:11.5px;
+  color:var(--text-dim);background:var(--surface);padding:6px 10px;border-radius:7px;
+  border:1px solid var(--border); pointer-events: none;
+}
 
 #markerLayer{position:absolute;inset:0;z-index:3;pointer-events:none;}
 .project-marker{
@@ -406,8 +411,6 @@ img,svg{max-width:100%;display:block;}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.15s !important;scroll-behavior:auto !important;}
 }
-/* Hide the hamburger by default on desktop */
-/* Hide the hamburger by default on desktop */
 .hamburger {
   display: none;
   background: none;
@@ -416,15 +419,11 @@ img,svg{max-width:100%;display:block;}
   cursor: pointer;
   color: inherit;
 }
-
-/* On desktop, keep nav-right contents inline if needed, or let them sit naturally */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-
-/* Responsive behavior for mobile screens (e.g., below 768px) */
 @media (max-width: 768px) {
   .nav-inner {
     display: flex;
@@ -433,12 +432,9 @@ img,svg{max-width:100%;display:block;}
     width: 100%;
     position: relative;
   }
-
   .hamburger {
-    display: block; /* Show hamburger on mobile */
+    display: block; 
   }
-
-  /* Hide the tabs menu by default on mobile */
   .tabs {
     display: none;
     position: absolute;
@@ -446,13 +442,11 @@ img,svg{max-width:100%;display:block;}
     left: 0;
     width: 100%;
     flex-direction: column;
-    background: var(--bg-color, #1a1a1a); /* Adjust to match your theme background */
+    background: var(--bg-color, #1a1a1a);
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
-
-  /* Show tabs when active */
   .tabs.active {
     display: flex;
   }
@@ -466,7 +460,6 @@ img,svg{max-width:100%;display:block;}
   <div class="nav-inner">
     <div class="brand"><span class="brand-dot"></span>saad@portfolio</div>
   
-    <!-- Navigation links dropdown -->
     <div class="tabs" id="navTabs">
       <a class="tab" data-target="hero" href="#hero">index.html</a>
       <a class="tab" data-target="stack" href="#stack">stack.json</a>
@@ -475,12 +468,9 @@ img,svg{max-width:100%;display:block;}
       <a class="tab" data-target="contact" href="#contact">contact.sh</a>
     </div>
 
-     <!-- Right side items for mobile (Theme toggle stays outside the hamburger dropdown) -->
-        <div class="nav-right">
+    <div class="nav-right">
       <button id="themeToggle" aria-label="Toggle Dark Mode" title="Toggle Light/Dark Mode">🌓</button>
-      <button class="hamburger" id="hamburgerToggle" aria-label="Toggle Navigation">
-        ☰
-      </button>
+      <button class="hamburger" id="hamburgerToggle" aria-label="Toggle Navigation">☰</button>
     </div>
   </div>
 </nav>
@@ -500,7 +490,6 @@ img,svg{max-width:100%;display:block;}
               </div>
               <div class="card-hint">tap to flip ⟳</div>
             </div>
-            <!-- ID added to the entire card-back container for click handling -->
             <div class="card-face card-back" id="cardBackTrigger">
               <p class="back-label">⟲ back to cover</p>
               <div class="back-row"><b>Education</b><span>BSSE @ NFC-IET</span></div>
@@ -560,12 +549,13 @@ img,svg{max-width:100%;display:block;}
     </div>
 
     <div class="road-wrap">
-      <div class="road-canvas-holder" id="roadHolder">
+      <div class="road-canvas-holder" id="roadHolder" tabindex="0">
         <canvas id="roadCanvas"></canvas>
         <div id="markerLayer"></div>
         <div class="road-fallback" id="roadFallback">3D scene couldn't load in this browser — the project cards below still work fine.</div>
       </div>
-      <div class="road-hint">◔ drag to look around · click a marker</div>
+      <div class="road-hint">◔ drag to pan · click ground to drive</div>
+      <div class="road-controls">⌨ WASD to drive freely</div>
     </div>
 
     <p class="projects-sub">// or browse directly</p>
@@ -573,7 +563,6 @@ img,svg{max-width:100%;display:block;}
   </div>
 </section>
 
-<!-- Project Details Drawer -->
 <div class="drawer-backdrop" id="detailBackdrop"></div>
 <aside class="drawer-panel detail-panel" id="detailPanel">
   <button class="drawer-close" id="detailClose" aria-label="Close">✕</button>
@@ -587,7 +576,6 @@ img,svg{max-width:100%;display:block;}
   <div class="detail-links" id="detailLinks"></div>
 </aside>
 
-<!-- Full Resume Drawer -->
 <div class="drawer-backdrop" id="resumeBackdrop"></div>
 <aside class="drawer-panel resume-panel" id="resumePanel">
   <button class="drawer-close" id="resumeClose" aria-label="Close">✕</button>
@@ -607,28 +595,32 @@ img,svg{max-width:100%;display:block;}
     International School of Choueifat, Abu Dhabi, UAE | 2023</p>
 
     <h3>EXPERIENCE</h3>
-    <p><b>Web Developer Intern</b><br>
-    July – September 2026</p>
+    <p><b>Web Development Intern | SafeX Solutions</b><br>
+    MERN Stack Development | Jul 2026 – Sep 2026</p>
     <ul>
-      <li>Contributed to full-stack web development tasks, optimizing responsiveness and scalability across multiple viewport configurations.</li>
-    </ul>
-
-    <p><b>University Project Developer | NFC-IET, Multan</b><br>
-    SimpleChat — Real-Time Chat Application | 2024</p>
-    <ul>
-      <li>Engineered a full-stack real-time chat application using Socket.io and the MERN stack, enabling instantaneous message broadcasting and room-based communication</li>
-      <li>Implemented a multimedia file-sharing system using Multer to handle multi-part form data, restricting uploads to specific file types (Images, PDFs, Docs) and enforcing strict file size limits</li>
-      <li>Hardened backend security by applying Helmet.js for HTTP header configuration, express-rate-limit to prevent API abuse, and mongo-sanitize to eliminate NoSQL injection vectors from user inputs</li>
-      <li>Built a persistent data pipeline with Mongoose to automatically archive chat histories and fetch message timelines when a user enters a room</li>
+      <li>Delivered production-style features using the MERN stack (MongoDB, Express.js, React, Node.js) across client-simulation projects following SafeX's real-world service delivery workflow</li>
+      <li>Built an MVP customer support helpdesk for a B2B SaaS use case: ticket creation, status tracking, assignment, priority-based search/filter, and SLA countdown timers</li>
+      <li>Designed and developed a premium, animated 5-page business website for a property management company, from sitemap and visual system through a responsive, deployed build</li>
+      <li>Audited a live public website for accessibility (WCAG) and performance using Lighthouse and shipped fixes, plus custom 404/error-page experiences, to improve usability and reduce drop-off</li>
     </ul>
 
     <h3>PROJECTS</h3>
+    <p><b>Waybill - Fleet & Trip Management System</b><br>
+    <span style="font-size: 12.5px;">React • Node.js • Express.js • PostgreSQL • JWT • Recharts • Python (OCR)</span></p>
+    <ul>
+      <li>Architected a full-stack fleet management and trip analytics platform with JWT-secured role-based access for Admin and Driver users</li>
+      <li>Built a Python-powered OCR document intake feature that reads uploaded or handwritten trip documents and auto-fills structured entry fields, leaving unreadable fields for manual completion</li>
+      <li>Designed an Admin dashboard covering fleet records, trip logs, and cost/revenue totals with date- and ID-based filters, visualized with Recharts and Lucide React for a clean, data-dense interface</li>
+      <li>Migrated the backend database from MongoDB to PostgreSQL, redesigning the schema for relational integrity across drivers, vehicles, and trip records</li>
+    </ul>
+
     <p><b>SimpleChat — Real-Time Chat Application</b><br>
     <span style="font-size: 12.5px;">MongoDB • Express.js • React • Node.js • TypeScript • Socket.io • Helmet.js | GitHub: github.com/saad12345-alt/SimpleChat</span></p>
     <ul>
       <li>Architected a full-stack real-time chat system with WebSocket (Socket.io) for instant bidirectional messaging — no polling, no lag</li>
       <li>Migrated codebase from JavaScript to TypeScript, introducing typed interfaces for Express routes, Mongoose models, and Socket.io events — demonstrating production-level code discipline</li>
-      <li>Delivered as a graded university software engineering project, meeting real deadlines and technical specifications</li>
+      <li>Hardened backend security by applying Helmet.js for HTTP header configuration, express-rate-limit to prevent API abuse, and mongo-sanitize to eliminate NoSQL injection vectors</li>
+      <li>Built a persistent data pipeline with Mongoose to automatically archive chat histories and fetch message timelines</li>
     </ul>
 
     <p><b>ClayMold — E-Commerce Platform with Admin Dashboard</b><br>
@@ -638,7 +630,6 @@ img,svg{max-width:100%;display:block;}
       <li>Admin Dashboard includes role-based access control — admin users can add, edit, and delete products and view all orders, while regular users see only the storefront</li>
       <li>Applied express-mongo-sanitize to protect against NoSQL injection attacks, ensuring user-submitted data is sanitized before reaching the database</li>
       <li>Implemented debounced search, price-range sorting, and persistent cart via LocalStorage — products load in under 500ms for a smooth user experience</li>
-      <li>Wrote custom React hooks to separate business logic from UI, keeping components clean and reusable — a pattern used in professional React codebases</li>
     </ul>
 
     <p><b>LuminaBooks — Book Discovery App</b><br>
@@ -653,7 +644,7 @@ img,svg{max-width:100%;display:block;}
     <p><b>Backend & Runtime:</b> Node.js, Express.js, REST APIs, JWT Authentication, Socket.io, Rate Limiting, Helmet.js, Mongoose<br>
     <b>Frontend:</b> React.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Custom Hooks<br>
     <b>Databases:</b> MongoDB, MySQL, PostgreSQL<br>
-    <b>Tools & Other:</b> Git, GitHub, Postman, Vercel, Java</p>
+    <b>Tools & Other:</b> Git, GitHub, Postman, Vercel, Java, Python, OCR</p>
 
     <h3>LANGUAGES</h3>
     <p>English (Fluent) | Urdu (Native) | Arabic (Basic — studied in UAE)</p>
@@ -732,13 +723,25 @@ themeBtn.addEventListener("click", () => {
 
 /* ===================== data ===================== */
 const STACK = {
-  backend: ["Node.js","Express.js","REST APIs","JWT Auth","Socket.io","Rate Limiting","Helmet.js","Mongoose"],
+  backend: ["Node.js","Express.js","REST APIs","JWT Auth","Socket.io","Rate Limiting","Helmet.js","Mongoose","PostgreSQL"],
   frontend: ["React.js","TypeScript","JavaScript (ES6+)","HTML5","CSS3","Tailwind CSS","Custom Hooks"],
   databases: ["MongoDB","MySQL","PostgreSQL"],
-  tools: ["Git","GitHub","Postman","Vercel","Java","AI Integration"]
+  tools: ["Git","GitHub","Postman","Vercel","Java","Python","OCR"]
 };
 
 const PROJECTS = [
+  {
+    id:"waybill", name:"Waybill - Fleet & Trip Management System", t:0.90,
+    tagline:"React . Node.js . Express.js . PostgreSQL . JWT . Recharts . Python (OCR)",
+    stack:["React","Node.js","Express.js","PostgreSQL","JWT","Recharts","Python (OCR)"],
+    bullets:[
+      "Architected a full-stack fleet management and trip analytics platform with JWT-secured role-based access for Admin and Driver users",
+      "Built a Python-powered OCR document intake feature that reads uploaded or handwritten trip documents and auto-fills structured entry fields, leaving unreadable fields for manual completion",
+      "Designed an Admin dashboard covering fleet records, trip logs, and cost/revenue totals with date- and ID-based filters, visualized with Recharts and Lucide React for a clean, data-dense interface",
+      "Migrated the backend database from MongoDB to PostgreSQL, redesigning the schema for relational integrity across drivers, vehicles, and trip records"
+    ],
+    art:"chart"
+  },
   {
     id:"simplechat", name:"SimpleChat", t:0.06,
     tagline:"A real-time chat application built on the MERN stack — no polling, no lag, just WebSockets doing their job.",
@@ -778,9 +781,9 @@ const PROJECTS = [
 
 const EXPERIENCE = [
   {
-    date:"Jul – Sep · 2 mo", on:true,
-    title:"Web Development Intern", org:"Remote",
-    desc:"Two-month internship focused on building and shipping features with the MERN stack — writing REST endpoints, building React UI, and working inside an existing codebase alongside a small team."
+    date:"Jul – Sep 2026", on:true,
+    title:"Web Development Intern", org:"SafeX Solutions",
+    desc:"Delivered production-style features using the MERN stack across client projects, built a B2B SaaS MVP customer support helpdesk, designed animated properties, and audited web performance/WCAG accessibility."
   }
 ];
 const EDUCATION = [
@@ -812,6 +815,19 @@ sections.forEach(s=> s && io.observe(s));
 /* ===================== card flip ===================== */
 const cardInner = document.getElementById("cardInner");
 cardInner.addEventListener("click", ()=> cardInner.classList.toggle("flipped"));
+document.getElementById("viewResumeBtn").addEventListener("click", (e)=>{
+  e.stopPropagation();
+  document.getElementById("resumeBackdrop").classList.add("open");
+  document.getElementById("resumePanel").classList.add("open");
+});
+document.getElementById("resumeClose").addEventListener("click", ()=>{
+  document.getElementById("resumeBackdrop").classList.remove("open");
+  document.getElementById("resumePanel").classList.remove("open");
+});
+document.getElementById("resumeBackdrop").addEventListener("click", ()=>{
+  document.getElementById("resumeBackdrop").classList.remove("open");
+  document.getElementById("resumePanel").classList.remove("open");
+});
 
 /* ===================== terminal typewriter ===================== */
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -898,9 +914,27 @@ function renderTimeline(el, items, kindClass){
 renderTimeline(document.getElementById("expList"), EXPERIENCE, "");
 renderTimeline(document.getElementById("eduList"), EDUCATION, "edu");
 
-/* ===================== project illustrations (hand-drawn svg) ===================== */
+/* ===================== project illustrations ===================== */
 function artSVG(key){
   const violet="#3b82f6", emerald="#10b981", dim="#1e2128", ink="#f1f5f9";
+  if(key==="chart"){
+    return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <rect width="440" height="260" fill="#16181d"/>
+      <circle cx="220" cy="130" r="100" fill="${violet}" opacity="0.05"/>
+      <rect x="40" y="40" width="360" height="180" rx="12" fill="${dim}" stroke="#272b34"/>
+      <rect x="60" y="60" width="320" height="12" rx="4" fill="#272b34"/>
+      <rect x="60" y="90" width="80" height="110" rx="6" fill="#16181d"/>
+      <rect x="160" y="90" width="220" height="110" rx="6" fill="#16181d"/>
+      <path d="M180 170 l40 -40 l30 20 l50 -60" fill="none" stroke="${emerald}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="180" cy="170" r="4" fill="${emerald}"/>
+      <circle cx="220" cy="130" r="4" fill="${emerald}"/>
+      <circle cx="250" cy="150" r="4" fill="${emerald}"/>
+      <circle cx="300" cy="90" r="4" fill="${emerald}"/>
+      <rect x="75" y="105" width="50" height="8" rx="4" fill="#272b34"/>
+      <rect x="75" y="125" width="40" height="8" rx="4" fill="#272b34"/>
+      <rect x="75" y="145" width="45" height="8" rx="4" fill="#272b34"/>
+    </svg>`;
+  }
   if(key==="chat"){
     return `<svg viewBox="0 0 440 260" width="100%" xmlns="http://www.w3.org/2000/svg">
       <rect width="440" height="260" fill="#16181d"/>
@@ -962,7 +996,7 @@ function artSVG(key){
   </svg>`;
 }
 
-/* ===================== project cards (guaranteed-working entry point) ===================== */
+/* ===================== project cards ===================== */
 const projectGrid = document.getElementById("projectGrid");
 projectGrid.innerHTML = PROJECTS.map(p=>`
   <button class="pcard" data-id="${p.id}" type="button">
@@ -1003,24 +1037,20 @@ function openProject(p){
 function closeProject(){
   detailBackdrop.classList.remove("open");
   detailPanel.classList.remove("open");
-  
-  if (window.setCarTarget) window.setCarTarget(null);
 }
 detailClose.addEventListener("click", closeProject);
 detailBackdrop.addEventListener("click", closeProject);
 document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); });
 
-/* ===================== three.js road scene (progressive enhancement) ===================== */
+/* ===================== three.js interactive scene ===================== */
 (function(){
   const holder = document.getElementById("roadHolder");
   const canvas = document.getElementById("roadCanvas");
   const markerLayer = document.getElementById("markerLayer");
   const fallback = document.getElementById("roadFallback");
 
-  let carTargetT = null;
-  window.setCarTarget = function(target) {
-    carTargetT = target;
-  };
+  let carTargetPos = null;
+  let isWASD = false;
 
   if(typeof THREE === "undefined"){
     fallback.style.display = "flex";
@@ -1048,42 +1078,60 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
   fill.position.set(-6,4,-4);
   scene.add(fill);
 
-  function grassTexture(){
-    const c = document.createElement("canvas"); c.width=c.height=256;
-    const ctx = c.getContext("2d");
-    ctx.fillStyle="#24382a"; ctx.fillRect(0,0,256,256);
-    for(let i=0;i<1400;i++){
-      const x=Math.random()*256, y=Math.random()*256, r=Math.random()*1.8+0.5;
-      ctx.fillStyle = Math.random()<0.5 ? "rgba(52,84,58,0.55)" : "rgba(18,32,22,0.45)";
-      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-    }
-    for(let i=0;i<180;i++){
-      const x=Math.random()*256, y=Math.random()*256;
-      ctx.strokeStyle="rgba(90,130,90,0.35)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+ (Math.random()*4-2), y-4-Math.random()*3); ctx.stroke();
-    }
-    const tex = new THREE.CanvasTexture(c);
-    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(12,12);
-    return tex;
-  }
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(60,60),
-    new THREE.MeshStandardMaterial({map:grassTexture(), roughness:1, metalness:0})
-  );
+  // Smooth Ground
+  const groundGeo = new THREE.PlaneGeometry(60,60);
+  const groundMat = new THREE.MeshStandardMaterial({color: 0x1d2921, roughness:1, metalness:0});
+  const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI/2; ground.position.y = -0.02; ground.receiveShadow = true;
   scene.add(ground);
 
+  // Car Controls Logic (WASD & Mouse)
+  const keys = { w:false, a:false, s:false, d:false };
+  holder.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if(keys.hasOwnProperty(k)) { keys[k] = true; isWASD = true; carTargetPos = null; e.preventDefault(); }
+  });
+  holder.addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if(keys.hasOwnProperty(k)) { keys[k] = false; e.preventDefault(); }
+  });
+
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  
+  holder.addEventListener('click', e => {
+    if(window.draggingCam) return;
+    if(e.target.closest('.project-marker')) return;
+    
+    const rect = holder.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObject(ground);
+    if(intersects.length > 0) {
+        carTargetPos = intersects[0].point.clone();
+        isWASD = false;
+        holder.focus(); // Focus to re-enable WASD typing later easily
+    }
+  });
+
   const ctrl = [
-    new THREE.Vector3(-8,0,-2.6),
-    new THREE.Vector3(-3.2,0,-6.2),
-    new THREE.Vector3(3.4,0,-5.2),
-    new THREE.Vector3(8.2,0,-0.8),
-    new THREE.Vector3(6.2,0,4.4),
-    new THREE.Vector3(0,0,6.4),
-    new THREE.Vector3(-6.4,0,4.2),
-    new THREE.Vector3(-9.4,0,0.4)
+    new THREE.Vector3(-8,0,-2.6), new THREE.Vector3(-3.2,0,-6.2),
+    new THREE.Vector3(3.4,0,-5.2), new THREE.Vector3(8.2,0,-0.8),
+    new THREE.Vector3(6.2,0,4.4), new THREE.Vector3(0,0,6.4),
+    new THREE.Vector3(-6.4,0,4.2), new THREE.Vector3(-9.4,0,0.4)
   ];
   const curve = new THREE.CatmullRomCurve3(ctrl, true, "catmullrom", 0.6);
+
+  window.setCarTarget = function(targetT) {
+      if(targetT !== null){
+          carTargetPos = curve.getPointAt(targetT);
+          isWASD = false;
+      } else {
+          carTargetPos = null;
+      }
+  };
 
   function roadTexture(){
     const c = document.createElement("canvas"); c.width=64; c.height=256;
@@ -1094,9 +1142,6 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
       ctx.fillStyle = Math.random()<0.5 ? "rgba(94,74,48,0.5)" : "rgba(46,34,20,0.45)";
       ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
     }
-    ctx.strokeStyle="rgba(38,28,16,0.55)"; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.moveTo(2,0); ctx.lineTo(2,256); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(62,0); ctx.lineTo(62,256); ctx.stroke();
     const tex = new THREE.CanvasTexture(c);
     tex.wrapS = THREE.ClampToEdgeWrapping; tex.wrapT = THREE.RepeatWrapping;
     return tex;
@@ -1122,8 +1167,7 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     const l = p.clone().addScaledVector(right, -halfW);
     const r = p.clone().addScaledVector(right, halfW);
     positions.push(l.x,0.015,l.z, r.x,0.015,r.z);
-    const v = a/3;
-    uvs.push(0,v, 1,v);
+    uvs.push(0,a/3, 1,a/3);
   }
   for(let i=0;i<N;i++){
     const a=i*2, b=i*2+1, c=(i+1)*2, d=(i+1)*2+1;
@@ -1139,53 +1183,128 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
   road.receiveShadow = true;
   scene.add(road);
 
-  const LEAF_GREENS = [0x2f6b45, 0x27593a, 0x36804f];
-  function makeTree(x,z,scale,tint){
-    const g = new THREE.Group();
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.08,0.5,6), new THREE.MeshStandardMaterial({color:0x4a3624, roughness:1}));
-    trunk.position.y = 0.25; trunk.castShadow = true;
-    const leafColor = LEAF_GREENS[tint%LEAF_GREENS.length];
-    const leaf1 = new THREE.Mesh(new THREE.ConeGeometry(0.4,0.62,8), new THREE.MeshStandardMaterial({color:leafColor, roughness:0.9}));
-    leaf1.position.y = 0.72; leaf1.castShadow = true;
-    const leaf2 = new THREE.Mesh(new THREE.ConeGeometry(0.3,0.5,8), new THREE.MeshStandardMaterial({color:leafColor, roughness:0.9}));
-    leaf2.position.y = 1.02; leaf2.castShadow = true;
-    g.add(trunk, leaf1, leaf2);
-    g.position.set(x,0,z); g.scale.setScalar(scale||1);
-    scene.add(g);
-  }
-  [[-10.6,-3.2,1,0],[-4.4,-8.4,.85,1],[5.6,-7.6,1.1,2],[10.6,2.4,.9,0],[2.4,8.4,1,1],[-9.6,6.2,.85,2],[9,-2,.8,0],[-1.8,-3.4,.7,1],[3.6,3.4,.75,2],[-7.2,-6,.8,0]].forEach(([x,z,s,tint])=>makeTree(x,z,s,tint));
+  // Instanced Grass Particle System
+  const grassCount = 35000;
+  const grassGeo = new THREE.ConeGeometry(0.06, 0.45, 3);
+  grassGeo.translate(0, 0.225, 0); // Origin at bottom root
+  const gMaterial = new THREE.MeshStandardMaterial({ color: 0x33613b, roughness: 0.9, side: THREE.DoubleSide });
 
-  function makeBush(x,z,scale){
-    const g = new THREE.Group();
-    const col = LEAF_GREENS[Math.floor(Math.random()*LEAF_GREENS.length)];
-    for(let i=0;i<3;i++){
-      const s = new THREE.Mesh(new THREE.SphereGeometry(0.14+Math.random()*0.05,8,8), new THREE.MeshStandardMaterial({color:col, roughness:0.95}));
-      s.position.set((Math.random()-0.5)*0.18, 0.12+Math.random()*0.05, (Math.random()-0.5)*0.18);
-      s.castShadow = true;
-      g.add(s);
-    }
-    g.position.set(x,0,z); g.scale.setScalar(scale||1);
-    scene.add(g);
-  }
-  [[-6.6,-1.4],[1.2,-5.6],[7.4,1.2],[3.8,6.6],[-8.4,3.2],[-2.6,7.4],[6.2,-4.2]].forEach(([x,z])=>makeBush(x,z,1));
+  const carPosUniform = { value: new THREE.Vector3(0,0,0) };
+  const timeUniform = { value: 0 };
+  
+  // Custom Vertex Shader for wind & collision physics
+  gMaterial.onBeforeCompile = (shader) => {
+      shader.uniforms.carPos = carPosUniform;
+      shader.uniforms.uTime = timeUniform;
+      shader.vertexShader = `
+          uniform vec3 carPos;
+          uniform float uTime;
+          ${shader.vertexShader}
+      `.replace(
+          `#include <begin_vertex>`,
+          `
+          #include <begin_vertex>
+          vec4 worldPos = instanceMatrix * vec4(position, 1.0);
+          
+          // Gentle wind sway
+          float sway = sin(worldPos.x * 0.8 + uTime) * cos(worldPos.z * 0.5 + uTime) * 0.15;
+          transformed.x += sway * position.y;
+          
+          // Car Contact / Trampling
+          float dist = distance(worldPos.xz, carPos.xz);
+          float radius = 1.35;
+          if(dist < radius){
+              vec2 dir = normalize(worldPos.xz - carPos.xz);
+              float strength = (1.0 - (dist / radius));
+              strength = pow(strength, 1.5) * 1.5; // flatten aggressively
+              
+              transformed.x += dir.x * strength * position.y;
+              transformed.z += dir.y * strength * position.y;
+              transformed.y -= strength * 0.45 * position.y; // Crush down
+          }
+          `
+      );
+  };
 
-  function makeBin(x,z){
-    const g = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.075,0.22,10), new THREE.MeshStandardMaterial({color:0x2e3b2e, roughness:0.7, metalness:0.15}));
-    body.position.y = 0.11; body.castShadow = true;
-    const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.025,10), new THREE.MeshStandardMaterial({color:0x1f281f, roughness:0.6}));
-    lid.position.y = 0.235; lid.castShadow = true;
-    g.add(body, lid);
-    g.position.set(x,0,z);
-    scene.add(g);
+  const grassInstanced = new THREE.InstancedMesh(grassGeo, gMaterial, grassCount);
+  grassInstanced.receiveShadow = true;
+  
+  const dummy = new THREE.Object3D();
+  const grassPositions = [];
+  for(let i=0; i<grassCount * 2; i++){
+       const gx = (Math.random()-0.5)*55;
+       const gz = (Math.random()-0.5)*55;
+       let onRoad = false;
+       for(let j=0; j<sampled.length; j+=8) {
+           const dx = gx - sampled[j].p.x; const dz = gz - sampled[j].p.z;
+           if(dx*dx + dz*dz < 2.0) { onRoad = true; break; }
+       }
+       if(!onRoad){
+           grassPositions.push({x: gx, z: gz});
+           if(grassPositions.length >= grassCount) break;
+       }
   }
-  [0.2,0.55,0.88].forEach(bt=>{
-    const bp = curve.getPointAt(bt);
-    const btan = curve.getTangentAt(bt).normalize();
-    const bright = new THREE.Vector3().crossVectors(btan, UP).normalize();
-    const pos = bp.clone().addScaledVector(bright, -(halfW+0.4));
-    makeBin(pos.x,pos.z);
-  });
+  for(let i=0; i<grassPositions.length; i++){
+       dummy.position.set(grassPositions[i].x, 0, grassPositions[i].z);
+       dummy.rotation.y = Math.random() * Math.PI * 2;
+       dummy.scale.setScalar(0.4 + Math.random()*0.8);
+       dummy.updateMatrix();
+       grassInstanced.setMatrixAt(i, dummy.matrix);
+  }
+  scene.add(grassInstanced);
+
+  // Instanced Trees and Bushes
+  const treeCount = 80;
+  const trunkGeo = new THREE.CylinderGeometry(0.15, 0.2, 0.8, 6);
+  trunkGeo.translate(0, 0.4, 0);
+  const leavesGeo = new THREE.ConeGeometry(0.9, 1.8, 8);
+  leavesGeo.translate(0, 1.4, 0);
+  const trunkMat = new THREE.MeshStandardMaterial({color: 0x3d2b1f, roughness: 0.9});
+  const leavesMat = new THREE.MeshStandardMaterial({color: 0x1e3622, roughness: 0.8});
+  const trunks = new THREE.InstancedMesh(trunkGeo, trunkMat, treeCount);
+  const leaves = new THREE.InstancedMesh(leavesGeo, leavesMat, treeCount);
+  trunks.receiveShadow = true; trunks.castShadow = true;
+  leaves.receiveShadow = true; leaves.castShadow = true;
+
+  const bushCount = 150;
+  const bushGeo = new THREE.DodecahedronGeometry(0.5, 1);
+  bushGeo.translate(0, 0.25, 0);
+  const bushMat = new THREE.MeshStandardMaterial({color: 0x244026, roughness: 0.9});
+  const bushes = new THREE.InstancedMesh(bushGeo, bushMat, bushCount);
+  bushes.receiveShadow = true; bushes.castShadow = true;
+
+  const vegetationDummy = new THREE.Object3D();
+  let tCount = 0, bCount = 0;
+
+  for(let i=0; i<400; i++) {
+      const vx = (Math.random()-0.5)*55;
+      const vz = (Math.random()-0.5)*55;
+      let onRoad = false;
+      for(let j=0; j<sampled.length; j+=6) {
+          const dx = vx - sampled[j].p.x; const dz = vz - sampled[j].p.z;
+          if(dx*dx + dz*dz < 7.0) { onRoad = true; break; }
+      }
+      if(!onRoad){
+          vegetationDummy.position.set(vx, 0, vz);
+          vegetationDummy.rotation.y = Math.random() * Math.PI * 2;
+          
+          if (tCount < treeCount && Math.random() > 0.4) {
+              const scale = 0.7 + Math.random()*0.8;
+              vegetationDummy.scale.setScalar(scale);
+              vegetationDummy.updateMatrix();
+              trunks.setMatrixAt(tCount, vegetationDummy.matrix);
+              leaves.setMatrixAt(tCount, vegetationDummy.matrix);
+              tCount++;
+          } else if (bCount < bushCount) {
+              const scale = 0.5 + Math.random()*0.9;
+              vegetationDummy.scale.set(scale, scale * (0.7 + Math.random()*0.4), scale);
+              vegetationDummy.updateMatrix();
+              bushes.setMatrixAt(bCount, vegetationDummy.matrix);
+              bCount++;
+          }
+      }
+  }
+  scene.add(trunks, leaves, bushes);
 
   const serverLights = [];
   function makeServer(x,z){
@@ -1194,15 +1313,15 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     box.position.y=0.35; box.castShadow=true;
     const led = new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.02), new THREE.MeshStandardMaterial({color:0x10b981, emissive:0x10b981, emissiveIntensity:1}));
     led.position.set(0,0.55,0.175);
-    g.add(box,led);
-    g.position.set(x,0,z);
-    scene.add(g);
+    g.add(box,led); g.position.set(x,0,z); scene.add(g);
     serverLights.push(led.material);
   }
   makeServer(-2.6,1.4); makeServer(4.4,-2.4);
 
   function makeCarProcedural(){
     const g = new THREE.Group();
+    const meshGroup = new THREE.Group();
+    
     const bodyMat = new THREE.MeshStandardMaterial({color:0x3b82f6, roughness:0.35, metalness:0.4});
     const glassMat = new THREE.MeshStandardMaterial({color:0x0f1115, roughness:0.15, metalness:0.6});
     const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.62,0.16,0.34), bodyMat);
@@ -1214,37 +1333,31 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     const headL = new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8), new THREE.MeshStandardMaterial({color:0xffe9b0, emissive:0xffe9b0, emissiveIntensity:0.8}));
     headL.position.set(0.38,0.2,0.11);
     const headR = headL.clone(); headR.position.z = -0.11;
-    g.add(chassis, cabin, nose, headL, headR);
+    meshGroup.add(chassis, cabin, nose, headL, headR);
 
     const wheels = [];
     const wheelMat = new THREE.MeshStandardMaterial({color:0x16181d, roughness:0.8});
     [[0.2,0.19],[0.2,-0.19],[-0.2,0.19],[-0.2,-0.19]].forEach(([x,z])=>{
       const w = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.09,14), wheelMat);
       w.rotation.z = Math.PI/2;
-      w.position.set(x,0.12,z);
-      w.castShadow = true;
-      g.add(w); wheels.push(w);
+      w.position.set(x,0.12,z); w.castShadow = true;
+      meshGroup.add(w); wheels.push(w);
     });
+
+    meshGroup.rotation.y = -Math.PI / 2; // Fixed procedural heading to face +Z
+    g.add(meshGroup);
     return {group:g, wheels};
   }
 
-  // If the car appears to face the wrong way once loaded, nudge this by
-  // Math.PI/2 or Math.PI increments (it's the yaw applied after loading).
-  const CAR_YAW_OFFSET = 0;
-  const CAR_TARGET_LENGTH = 0.72;
-
   const car = {group:new THREE.Group(), wheels:[]};
   scene.add(car.group);
-
-  function useFallbackCar(){
-    const built = makeCarProcedural();
-    car.group.add(built.group);
-    car.wheels = built.wheels;
-  }
+  car.group.position.set(-6, 0.02, -2.6); // start near curve origin
 
   function loadCarModel(){
     if(typeof CAR_GLB_BASE64 === "undefined" || !CAR_GLB_BASE64 || typeof THREE.GLTFLoader === "undefined"){
-      useFallbackCar();
+      const built = makeCarProcedural();
+      car.group.add(built.group);
+      car.wheels = built.wheels;
       return;
     }
     try{
@@ -1256,8 +1369,7 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
         const model = gltf.scene || gltf.scenes[0];
         const box = new THREE.Box3().setFromObject(model);
         const size = new THREE.Vector3(); box.getSize(size);
-        const maxHorizontal = Math.max(size.x, size.z) || 1;
-        const scale = CAR_TARGET_LENGTH / maxHorizontal;
+        const scale = 0.72 / (Math.max(size.x, size.z) || 1);
         model.scale.setScalar(scale);
 
         const box2 = new THREE.Box3().setFromObject(model);
@@ -1271,20 +1383,10 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
           if(o.isMesh){ o.castShadow = true; }
           if(/tire|wheel/i.test(o.name)) wheels.push(o);
         });
-
-        const wrapper = new THREE.Group();
-        wrapper.rotation.y = CAR_YAW_OFFSET;
-        wrapper.add(model);
-        car.group.add(wrapper);
+        car.group.add(model);
         car.wheels = wheels;
-      }, (err)=>{
-        console.error("GLB parse failed, using fallback car:", err);
-        useFallbackCar();
-      });
-    }catch(err){
-      console.error("GLB decode failed, using fallback car:", err);
-      useFallbackCar();
-    }
+      }, (err)=>{ makeCarProcedural(); });
+    }catch(err){ makeCarProcedural(); }
   }
   loadCarModel();
 
@@ -1295,8 +1397,7 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     const right = new THREE.Vector3().crossVectors(tan, UP).normalize();
     const base = point.clone().addScaledVector(right, halfW + 0.9);
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.3,8), new THREE.MeshStandardMaterial({color:0x272b34}));
-    pole.position.set(base.x, 0.65, base.z);
-    pole.castShadow = true;
+    pole.position.set(base.x, 0.65, base.z); pole.castShadow = true;
     const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07,10,10), new THREE.MeshStandardMaterial({color:0x3b82f6, emissive:0x3b82f6, emissiveIntensity:0.9}));
     dot.position.set(base.x, 1.32, base.z);
     scene.add(pole, dot);
@@ -1314,18 +1415,22 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
   });
 
   let yaw = 0, targetYaw = 0, dragging=false, lastX=0;
+  window.draggingCam = false;
   holder.addEventListener("pointerdown", e=>{ 
-    // IMPORTANT: Don't set capture if they clicked a marker, so the click event can fire natively!
     if (e.target.closest('.project-marker')) return;
     dragging=true; 
+    window.draggingCam = false;
     lastX=e.clientX; 
     holder.setPointerCapture(e.pointerId); 
   });
-  holder.addEventListener("pointerup", ()=> dragging=false);
+  holder.addEventListener("pointerup", ()=> {
+    dragging=false; setTimeout(()=>window.draggingCam=false,50);
+  });
   holder.addEventListener("pointerleave", ()=> dragging=false);
   holder.addEventListener("pointermove", e=>{
     if(!dragging) return;
     const dx = e.clientX - lastX; lastX = e.clientX;
+    if(Math.abs(dx) > 0.5) window.draggingCam = true;
     targetYaw -= dx * 0.006;
   });
 
@@ -1337,46 +1442,57 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     camera.aspect = w/h; camera.updateProjectionMatrix();
   }
   
-  if (window.ResizeObserver) {
-    new ResizeObserver(resize).observe(holder);
-  } else {
-    window.addEventListener("resize", resize);
-  }
+  if (window.ResizeObserver) { new ResizeObserver(resize).observe(holder); } 
+  else { window.addEventListener("resize", resize); }
   resize();
 
-  let t = 0;
+  let carSpeed = 0, carRotation = 0;
+  const maxSpeed = 7.0, accel = 14.0, decel = 12.0;
   const clock = new THREE.Clock();
   const v = new THREE.Vector3();
 
   function animate(){
     requestAnimationFrame(animate);
     const dt = Math.min(clock.getDelta(), 0.05);
+    timeUniform.value = performance.now() * 0.001;
+    carPosUniform.value.copy(car.group.position);
 
-    if(!reduced){
-      if (carTargetT !== null) {
-        // Drive towards carTargetT smoothly
-        let forwardDiff = carTargetT - (t % 1);
-        if (forwardDiff < 0) forwardDiff += 1;
-        
-        if (forwardDiff < 0.01) {
-          t = carTargetT; // We reached the target
-        } else {
-          // Speed up towards the target marker
-          t = (t + dt*0.15) % 1;
-        }
-      } else {
-        // Default cruising speed
-        t = (t + dt*0.028) % 1;
-      }
-    }
-    const p = curve.getPointAt(t);
-    const tan = curve.getTangentAt(t).normalize();
-    car.group.position.set(p.x, 0.02, p.z);
-    car.group.rotation.y = Math.atan2(tan.x, tan.z);
-    
     if(!reduced) {
-      const speed = carTargetT !== null ? dt*15 : dt*10;
-      car.wheels.forEach(w=> w.rotation.x -= speed);
+        if(isWASD) {
+            if(keys.w) carSpeed = Math.min(carSpeed + accel*dt, maxSpeed);
+            else if(keys.s) carSpeed = Math.max(carSpeed - accel*dt, -maxSpeed/2);
+            else {
+                if(carSpeed > 0) carSpeed = Math.max(0, carSpeed - decel*dt);
+                if(carSpeed < 0) carSpeed = Math.min(0, carSpeed + decel*dt);
+            }
+            if(Math.abs(carSpeed) > 0.1) {
+                if(keys.a) carRotation += 2.2 * dt * Math.sign(carSpeed);
+                if(keys.d) carRotation -= 2.2 * dt * Math.sign(carSpeed);
+            }
+        } else if (carTargetPos) {
+            const dir = new THREE.Vector3().subVectors(carTargetPos, car.group.position);
+            dir.y = 0;
+            const dist = dir.length();
+            if(dist > 0.2) {
+                dir.normalize();
+                const targetAngle = Math.atan2(dir.x, dir.z);
+                let angleDiff = targetAngle - carRotation;
+                angleDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
+                
+                carRotation += angleDiff * 5.0 * dt;
+                carSpeed = Math.min(maxSpeed, dist * 3.0); 
+            } else {
+                carSpeed = 0; carTargetPos = null;
+            }
+        } else {
+            if(carSpeed > 0) carSpeed = Math.max(0, carSpeed - decel*dt);
+            if(carSpeed < 0) carSpeed = Math.min(0, carSpeed + decel*dt);
+        }
+
+        car.group.rotation.y = carRotation;
+        car.group.position.x += Math.sin(carRotation) * carSpeed * dt;
+        car.group.position.z += Math.cos(carRotation) * carSpeed * dt;
+        car.wheels.forEach(w=> w.rotation.x -= carSpeed * dt * 2.0);
     }
 
     serverLights.forEach((m,i)=>{
@@ -1385,8 +1501,8 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
 
     yaw += (targetYaw - yaw) * 0.08;
     const radius = 13.5;
-    camera.position.set(Math.sin(yaw)*radius, 8.6, Math.cos(yaw)*radius);
-    camera.lookAt(0,0.4,0);
+    camera.position.set(car.group.position.x + Math.sin(yaw)*radius, 8.6, car.group.position.z + Math.cos(yaw)*radius);
+    camera.lookAt(car.group.position.x, 0.4, car.group.position.z);
 
     renderer.render(scene, camera);
 
