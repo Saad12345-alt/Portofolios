@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- three.js is lazy-loaded on click, see the road-poster script near the end of the file -->
 <script>
   // Prevent flash of incorrect theme on load
   const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
@@ -255,6 +255,31 @@ img,svg{max-width:100%;display:block;}
   color:var(--text-dim);background:var(--surface);padding:6px 10px;border-radius:7px;
   border:1px solid var(--border); pointer-events: none;
 }
+
+.road-poster{
+  position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;cursor:pointer;background:var(--bg-soft);
+  border:none;width:100%;padding:0;font-family:inherit;color:inherit;
+  transition:opacity .4s ease;
+}
+.road-poster.hidden{opacity:0;pointer-events:none;}
+.road-poster-map{width:220px;height:110px;opacity:.55;}
+.road-poster-play{
+  width:56px;height:56px;border-radius:50%;background:var(--accent);color:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 14px 30px -12px rgba(0,0,0,.35);transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.road-poster:hover .road-poster-play{transform:scale(1.08);}
+.road-poster-label{font-family:var(--font-m);font-size:12.5px;color:var(--text-dim);text-align:center;}
+.road-poster-label b{color:var(--text);font-weight:600;}
+.road-poster.loading .road-poster-play{animation:posterspin 1s linear infinite;}
+.road-poster.loading .road-poster-play svg{display:none;}
+.road-poster.loading .road-poster-play::after{
+  content:"";width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--bg);border-top-color:transparent;
+}
+@keyframes posterspin{to{transform:rotate(360deg);}}
+.road-poster.error .road-poster-label{color:#c0392b;}
 
 #markerLayer{position:absolute;inset:0;z-index:3;pointer-events:none;}
 .project-marker{
@@ -553,6 +578,16 @@ img,svg{max-width:100%;display:block;}
         <canvas id="roadCanvas"></canvas>
         <div id="markerLayer"></div>
         <div class="road-fallback" id="roadFallback">3D scene couldn't load in this browser — the project cards below still work fine.</div>
+        <button type="button" class="road-poster" id="roadPoster">
+          <svg class="road-poster-map" viewBox="0 0 220 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 90 C40 40 70 95 100 55 C125 22 150 70 206 30" stroke="currentColor" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round"/>
+            <circle cx="55" cy="70" r="4" fill="currentColor"/>
+            <circle cx="112" cy="48" r="4" fill="currentColor"/>
+            <circle cx="178" cy="38" r="4" fill="currentColor"/>
+          </svg>
+          <div class="road-poster-play"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="road-poster-label"><b>Load the 3D project map</b><br>click to explore — drive past each marker</div>
+        </button>
       </div>
       <div class="road-hint">◔ drag to pan · click ground to drive</div>
       <div class="road-controls">⌨ WASD to drive freely</div>
@@ -1042,8 +1077,8 @@ detailClose.addEventListener("click", closeProject);
 detailBackdrop.addEventListener("click", closeProject);
 document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); });
 
-/* ===================== three.js interactive scene ===================== */
-(function(){
+/* ===================== three.js road scene (lazy-loaded on click) ===================== */
+function initRoadScene(){
   const holder = document.getElementById("roadHolder");
   const canvas = document.getElementById("roadCanvas");
   const markerLayer = document.getElementById("markerLayer");
@@ -1522,6 +1557,44 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeProject(); }
     fallback.innerHTML = "3D scene couldn't load: " + err.message + "<br><br>The project cards below still work fine.";
     fallback.style.display = "flex";
   }
+}
+
+/* Load three.js only once the visitor actually asks for the 3D scene —
+   keeps the initial page fast, and avoids relying on a big <head> script
+   tag that some hosts/build steps reorder or defer unpredictably. */
+(function(){
+  const poster = document.getElementById("roadPoster");
+  const fallback = document.getElementById("roadFallback");
+  let started = false;
+
+  function loadScript(src){
+    return new Promise((resolve, reject)=>{
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function start(){
+    if(started) return;
+    started = true;
+    poster.classList.add("loading");
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js")
+      .then(()=>{
+      initRoadScene();
+      poster.classList.add("hidden");
+    }).catch(err=>{
+      console.error("Failed to load 3D scene:", err);
+      started = false;
+      poster.classList.remove("loading");
+      poster.classList.add("error");
+      fallback.style.display = "flex";
+    });
+  }
+
+  poster.addEventListener("click", start);
 })();
 </script>
 </body>
