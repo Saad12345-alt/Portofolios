@@ -441,8 +441,10 @@ img,svg{max-width:100%;display:block;}
   background: none;
   border: none;
   font-size: 1.5rem;
+  line-height: 1;
+  padding: 6px 8px;
   cursor: pointer;
-  color: inherit;
+  color: var(--text);
 }
 .nav-right {
   display: flex;
@@ -466,15 +468,30 @@ img,svg{max-width:100%;display:block;}
     top: 100%;
     left: 0;
     width: 100%;
+    margin-left: 0;
     flex-direction: column;
-    background: var(--bg-color, #1a1a1a);
+    align-items: stretch;
+    gap: 4px;
+    overflow: visible;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
     padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.25);
     z-index: 1000;
   }
   .tabs.active {
     display: flex;
   }
+  .tabs .tab {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+  }
+  .tabs .tab.active {
+    background: var(--bg-soft);
+    border-color: var(--border);
+  }
+  .nav-right { margin-left: auto; }
 }
 </style>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='black'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-size='45' font-weight='bold'>SA</text></svg>">
@@ -755,6 +772,32 @@ themeBtn.addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", nextTheme);
   localStorage.setItem("theme", nextTheme);
 });
+
+/* ===================== Mobile Menu (hamburger) ===================== */
+const hamburger = document.getElementById("hamburgerToggle");
+const navTabs = document.getElementById("navTabs");
+function setMenu(open){
+  navTabs.classList.toggle("active", open);
+  hamburger.textContent = open ? "✕" : "☰";
+  hamburger.setAttribute("aria-expanded", String(open));
+}
+hamburger.setAttribute("aria-expanded", "false");
+hamburger.setAttribute("aria-controls", "navTabs");
+hamburger.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  setMenu(!navTabs.classList.contains("active"));
+});
+// close after choosing a section
+navTabs.addEventListener("click", (e)=>{
+  if(e.target.closest(".tab")) setMenu(false);
+});
+// close when tapping outside the menu
+document.addEventListener("click", (e)=>{
+  if(!e.target.closest(".nav")) setMenu(false);
+});
+// close on Escape, or when resizing up to desktop
+document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") setMenu(false); });
+window.addEventListener("resize", ()=>{ if(window.innerWidth > 768) setMenu(false); });
 
 /* ===================== data ===================== */
 const STACK = {
